@@ -1,0 +1,8 @@
+{
+  "short_name": "react-multiple-select-dropdown",
+  "name": "react-multiple-select-dropdown",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
