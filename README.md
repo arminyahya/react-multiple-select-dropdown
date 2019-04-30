@@ -1,6 +1,4 @@
 # react-multiple-select-dropdown
-
-# react-multiple-select-dropdown
 ![](/preview/MultiSelect.gif)
 
 [![NPM](https://img.shields.io/npm/v/react-multiple-select-dropdown.svg)](https://www.npmjs.com/package/react-multiple-select-dropdown) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -16,8 +14,8 @@ npm install --save react-multiple-select-dropdown
 ## Usage
 ```jsx
 import React, { Component } from 'react';
-import './MultipleSelect.sass';
-import MultipleSelect from './components/MultipleSelect';
+import MultipleSelect from 'react-multiple-select-dropdown';
+import 'react-multiple-select-dropdown/src/MultipleSelect.css';
 
 class YourWrapperComponent extends Component {
   state = {
