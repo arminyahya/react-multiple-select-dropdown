@@ -3,7 +3,8 @@ import * as ReactDOM from 'react-dom';
 import { Manager, Reference, Popper } from 'react-popper';
 import { popperPortal } from './PopperPortal';
 import onClickOutside from 'react-onclickoutside';
-import './MultipleSelect.css';
+import { inputStyle, popperStyle } from './Style';
+
 
 interface ValueLabelModel {
 	value: any;
@@ -183,7 +184,7 @@ class MultipleSelect extends React.Component<Props, State> {
 			</div>
 		);
 		return (
-			<div className={'y-multiple-select'}>
+			<div className={'y-multiple-select' + ` ${inputStyle}`}>
 				<div className="y-multiple-select_summary-wrapper" hidden={showLists || selectedItems.length < 1}>
 					<span className="y-multiple-select_summary" onClick={this.onFocus}>
 						{selectedItems.length > 0 ? selectedItems[0].label : ''}
@@ -208,7 +209,7 @@ class MultipleSelect extends React.Component<Props, State> {
 						)}
 					</Reference>
 					{ReactDOM.createPortal(
-						<Popper modifiers={{ computeStyle: { gpuAcceleration: false } }} placement="bottom-start" positionFixed={false}>
+						<Popper modifiers={{ computeStyle: { gpuAcceleration: false } }} placement="bottom-start" positionFixed={false} >
 							{({ ref, style, placement, scheduleUpdate }) => {
 								this.scheduleUpdate = scheduleUpdate;
 								return (
@@ -217,7 +218,7 @@ class MultipleSelect extends React.Component<Props, State> {
 											ref={ref}
 											style={style}
 											data-placement={placement}
-											className={'y-multiple-select_lists' + (popperClassName ? ' ' + popperClassName : '')}
+											className={'y-multiple-select_lists' + ` ${popperStyle}` + (popperClassName ? ' ' + popperClassName : '')}
 										>
 											<div className="y-multiple-select_lists_inner">
 												{unSelectedList}

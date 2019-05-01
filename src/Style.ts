@@ -1,11 +1,8 @@
+import { css as emotionCSS } from 'emotion';
+export const inputStyle = emotionCSS`
 .y-multiple-select {
 	display: flex;
 }
-
-.y-multiple-select_lists_inner {
-	display: flex;
-}
-
 .y-multiple-select_summary-wrapper {
 	flex-grow: 1;
 	text-overflow: ellipsis;
@@ -37,6 +34,12 @@
 
 .y-multiple-select_trigger_wrapper {
 	width: 100%;
+}
+`
+export const popperStyle = emotionCSS`
+
+.y-multiple-select_lists_inner {
+	display: flex;
 }
 
 .y-multiple-select_list_inner.js-hidden {
@@ -110,4 +113,5 @@
 
 .y-multiple-select_list--selected .y-icon--cross .svg-point {
 	stroke: #fff;
-}
+} 
+`;
