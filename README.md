@@ -55,7 +55,7 @@ API
 | popperClassName         | string                               | ''        | false    |
 | selectedItems           | {value: number,label: string}[]      | []        | true     |
 | unSelectedItems         | {value: number,label: string}[]      | []        | true     |
-| onInputChange           | (text) => void                       |           | false    |
+| onInputChange           | (text) => void                       |           | true    |
 | onChange                | (value: number,label: string)=> void |           | true     |
 | onFocus                 | () => void                           | undefined | false    |
 | onBlur                  | () => void                           | undefined | false    |
