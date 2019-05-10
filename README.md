@@ -50,18 +50,18 @@ Classes
 ---
 You can use prefixClassName prop to put your className instead of multiple-select in below
 
-multiple-select
-multiple-select_lists
-multiple-select_lists_inner
-multiple-select_list
-multiple-select_list-selected
-multiple-select_list-unselected
-multiple-select_list_item
-multiple-select_summary-wrapper
-multiple-select_summary
-multiple-select_trigger_wrapper
-multiple-select_trigger
-multiple-select_list_item_cross-icon
+multiple-select <br />
+multiple-select_lists<br />
+multiple-select_lists_inner<br />
+multiple-select_list<br />
+multiple-select_list-selected<br />
+multiple-select_list-unselected<br />
+multiple-select_list_item<br />
+multiple-select_summary-wrapper<br />
+multiple-select_summary<br />
+multiple-select_trigger_wrapper<br />
+multiple-select_trigger<br />
+multiple-select_list_item_cross-icon<br />
 ```
 
 ```
@@ -73,7 +73,7 @@ API
 | prefixClassName         | string                               | multiple-select | false    |
 | selectedItems           | {value: number,label: string}[]      | []              | true     |
 | unSelectedItems         | {value: number,label: string}[]      | []              | true     |
-| onInputChange           | (text) => void                       |                 | true     |
+| onInputChange           | (text) => void                       |                 | false     |
 | onChange                | (value: number,label: string)=> void |                 | true     |
 | onFocus                 | () => void                           |                 | false    |
 | onBlur                  | () => void                           |                 | false    |
