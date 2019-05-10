@@ -73,7 +73,7 @@ API
 | prefixClassName         | string                               | multiple-select | false    |
 | selectedItems           | {value: number,label: string}[]      | []              | true     |
 | unSelectedItems         | {value: number,label: string}[]      | []              | true     |
-| onInputChange           | (text) => void                       |                 | false    |
+| onInputChange           | (text) => void                       |                 | true     |
 | onChange                | (value: number,label: string)=> void |                 | true     |
 | onFocus                 | () => void                           |                 | false    |
 | onBlur                  | () => void                           |                 | false    |
