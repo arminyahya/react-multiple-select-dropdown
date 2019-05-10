@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
-import MultipleSelect from 'react-multiple-select-dropdown';
-class App extends Component {
+import * as React from "react";
+import MultipleSelect from '../MultipleSelect';
+class App extends React.Component<any, any> {
   state = {
-    selectedItems: [
-      { value: 4, label: 'redux' },
-      { value: 5, label: 'mobx' }
-    ],
+    selectedItems: [],
     unSelectedItems: [
       { value: 1, label: 'react' },
       { value: 2, label: 'reactnative' },
@@ -15,7 +12,7 @@ class App extends Component {
     ]
   }
 
-  onChange = (selectedItems) => {
+  onChange = (selectedItems: any) => {
     this.setState({ selectedItems: selectedItems });
   }
 

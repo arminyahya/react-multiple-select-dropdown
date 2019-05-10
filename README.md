@@ -45,20 +45,38 @@ class YourWrapperComponent extends Component {
     );
   }
 }
+```
+Classes
+---
+You can use prefixClassName prop to put your className instead of multiple-select in below
+
+multiple-select
+multiple-select_lists
+multiple-select_lists_inner
+multiple-select_list
+multiple-select_list-selected
+multiple-select_list-unselected
+multiple-select_list_item
+multiple-select_summary-wrapper
+multiple-select_summary
+multiple-select_trigger_wrapper
+multiple-select_trigger
+multiple-select_list_item_cross-icon
+```
 
 ```
 API
 ---
 
-| Name                    | Type                                 | Default   | Required |
-|-------------------------|--------------------------------------|-----------|----------|
-| popperClassName         | string                               | ''        | false    |
-| selectedItems           | {value: number,label: string}[]      | []        | true     |
-| unSelectedItems         | {value: number,label: string}[]      | []        | true     |
-| onInputChange           | (text) => void                       |           | false    |
-| onChange                | (value: number,label: string)=> void |           | true     |
-| onFocus                 | () => void                           | undefined | false    |
-| onBlur                  | () => void                           | undefined | false    |
+| Name                    | Type                                 | Default         | Required |
+|-------------------------|--------------------------------------|-----------------|----------|
+| prefixClassName         | string                               | multiple-select | false    |
+| selectedItems           | {value: number,label: string}[]      | []              | true     |
+| unSelectedItems         | {value: number,label: string}[]      | []              | true     |
+| onInputChange           | (text) => void                       |                 | false    |
+| onChange                | (value: number,label: string)=> void |                 | true     |
+| onFocus                 | () => void                           |                 | false    |
+| onBlur                  | () => void                           |                 | false    |
 
 
 ## License

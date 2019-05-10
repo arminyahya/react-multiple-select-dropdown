@@ -1,9 +1,9 @@
 import { css as emotionCSS } from 'emotion';
 export const inputStyle = emotionCSS`
-.y-multiple-select {
+.multiple-select {
 	display: flex;
 }
-.y-multiple-select_summary-wrapper {
+.multiple-select_summary-wrapper {
 	flex-grow: 1;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -14,11 +14,11 @@ export const inputStyle = emotionCSS`
 	width: 100%;
 }
 
-.y-multiple-select_summary {
+.multiple-select_summary {
 	position: relative;
 }
 
-.y-multiple-select_trigger {
+.multiple-select_trigger {
 	width: 100%;
 	height: 30px;
 	border: none;
@@ -27,27 +27,27 @@ export const inputStyle = emotionCSS`
 	border-bottom: 2px solid #e6e6e6;
 }
 
-.y-multiple-select_trigger input {
+.multiple-select_trigger input {
 	height: auto;
 	border: none;
 }
 
-.y-multiple-select_trigger_wrapper {
+.multiple-select_trigger_wrapper {
 	width: 100%;
 }
 `
 export const popperStyle = emotionCSS`
 
-.y-multiple-select_lists_inner {
+.multiple-select_lists_inner {
 	display: flex;
 }
 
-.y-multiple-select_list_inner.js-hidden {
+.multiple-select_list_inner.js-hidden {
 	visibility: hidden;
 	z-index: -1000;
 }
 
-.y-multiple-select_list {
+.multiple-select_list {
 	width: 240px;
 	max-height: 300px;
 	font-size: 14px;
@@ -57,7 +57,7 @@ export const popperStyle = emotionCSS`
 	background-color: #24292e;
 }
 
-.y-multiple-select_list_item {
+.multiple-select_list_item {
 	padding: 8px 12px;
 	font-size: 13px;
 	min-height: 35px;
@@ -65,53 +65,53 @@ export const popperStyle = emotionCSS`
 	align-items: center;
 }
 
-.y-multiple-select_list_item > span {
+.multiple-select_list_item > span {
 	display: inline-block;
 	width: 100%;
 }
 
-.y-multiple-select_list_item:hover {
+.multiple-select_list_item:hover {
 	background-color: #4d4d4d;
 }
 
-.y-multiple-select_list_item.js-active {
+.multiple-select_list_item.js-active {
 	background-color: #333333;
 }
 
-.y-multiple-select_list::-webkit-scrollbar {
+.multiple-select_list::-webkit-scrollbar {
 	width: 8px;
 }
 
-.y-multiple-select_list::-webkit-scrollbar-track {
+.multiple-select_list::-webkit-scrollbar-track {
 	background: rgba(36, 41, 46, 0.5);
 	border-radius: 0;
 }
 
-.y-multiple-select_list::-webkit-scrollbar-thumb {
+.multiple-select_list::-webkit-scrollbar-thumb {
 	background: rgba(0, 0, 0, 0.5);
 	border-radius: 0;
 }
 
-.y-multiple-select_list--unselected .y-multiple-select_list_item {
+.multiple-select_list-unselected .multiple-select_list_item {
 	justify-content: flex-start;
 	align-items: center;
 }
 
-.y-multiple-select_list--selected .y-multiple-select_list_item {
+.multiple-select_list-selected .multiple-select_list_item {
 	justify-content: center;
 	align-items: center;
 }
 
-.y-multiple-select_list--selected .y-icon--cross {
+.multiple-select_list-selected .y-icon--cross {
 	margin-right: auto;
 	padding-right: 10px;
 }
 
-.y-multiple-select_list--selected .y-icon--cross svg {
+.multiple-select_list-selected .y-icon--cross svg {
 	width: 10px;
 }
 
-.y-multiple-select_list--selected .y-icon--cross .svg-point {
+.multiple-select_list-selected .y-icon--cross .svg-point {
 	stroke: #fff;
 } 
 `;

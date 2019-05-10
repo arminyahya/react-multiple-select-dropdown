@@ -1,3 +1,5 @@
 
 import MultipleSelect from './MultipleSelect';
-export default MultipleSelect;
+import withHandleClickOutside from './HandleClickOutside';
+
+export default withHandleClickOutside(MultipleSelect);
