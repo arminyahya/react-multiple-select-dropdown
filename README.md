@@ -62,7 +62,6 @@ multiple-select_summary<br />
 multiple-select_trigger_wrapper<br />
 multiple-select_trigger<br />
 multiple-select_list_item_cross-icon<br />
-```
 
 ```
 API
