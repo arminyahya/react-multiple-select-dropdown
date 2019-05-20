@@ -1,8 +1,8 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Manager, Reference, Popper } from 'react-popper';
-import { popperPortal } from './PopperPortal';
-import { inputStyle, popperStyle } from './Style';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Manager, Reference, Popper } from "react-popper";
+import { popperPortal } from "./PopperPortal";
+import { inputStyle, popperStyle } from "./Style";
 
 
 interface ValueLabelModel {
@@ -32,8 +32,8 @@ class MultipleSelect extends React.Component<Props, State> {
 	inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 	scheduleUpdate: () => void;
 	static defaultProps: Partial<Props> = {
-		prefixClassName: 'multiple-select'
-	}
+		prefixClassName: "multiple-select"
+	};
 	constructor(props: Props) {
 		super(props);
 		this.state = {
@@ -45,12 +45,12 @@ class MultipleSelect extends React.Component<Props, State> {
 	}
 
 	handleClickOutside = (e: any) => {
-		if ((e.target).closest('#popper-portal')) {
+		if ((e.target).closest("#popper-portal")) {
 			return;
 		}
 
 		if (this.inputRef.current) {
-			this.inputRef.current.value = '';
+			this.inputRef.current.value = "";
 		}
 
 		if (this.state.showLists) {
@@ -94,7 +94,7 @@ class MultipleSelect extends React.Component<Props, State> {
 	onBlur = () => {
 		const { onBlur } = this.props;
 		// @ts-ignore
-		this.inputRef.current.value = '';
+		this.inputRef.current.value = "";
 		if (onBlur) {
 			onBlur();
 		}
@@ -106,29 +106,29 @@ class MultipleSelect extends React.Component<Props, State> {
 		if (!showLists) {
 			return;
 		}
-		if (e.key === 'Escape' || e.keyCode === 9) {
+		if (e.key === "Escape" || e.keyCode === 9) {
 			this.setState({ showLists: false });
-		} else if (e.key === 'ArrowUp') {
+		} else if (e.key === "ArrowUp") {
 			if (currentList === 1 && acvtiveUnselectedItem > 0) {
 				this.setState({ acvtiveUnselectedItem: acvtiveUnselectedItem - 1 });
 			} else if (acvtiveSelectedItem > 0) {
 				this.setState({ acvtiveSelectedItem: acvtiveSelectedItem - 1 });
 			}
-		} else if (e.key === 'ArrowDown') {
+		} else if (e.key === "ArrowDown") {
 			if (currentList === 1 && acvtiveUnselectedItem < unSelectedItems.length) {
 				this.setState({ acvtiveUnselectedItem: acvtiveUnselectedItem + 1 });
 			} else if (acvtiveSelectedItem < selectedItems.length) {
 				this.setState({ acvtiveSelectedItem: acvtiveSelectedItem + 1 });
 			}
-		} else if (e.key === 'ArrowLeft') {
+		} else if (e.key === "ArrowLeft") {
 			if (currentList === 2) {
 				this.setState({ currentList: 1, acvtiveSelectedItem: 0, acvtiveUnselectedItem: 0 });
 			}
-		} else if (e.key === 'ArrowRight') {
+		} else if (e.key === "ArrowRight") {
 			if (currentList === 1) {
 				this.setState({ currentList: 2, acvtiveUnselectedItem: 0, acvtiveSelectedItem: 0 });
 			}
-		} else if (e.key === 'Enter') {
+		} else if (e.key === "Enter") {
 			if (currentList === 1) {
 				this.onSelectItem(acvtiveUnselectedItem);
 			} else {
@@ -138,15 +138,15 @@ class MultipleSelect extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		window.addEventListener('keydown', this.handleKeyPress);
+		window.addEventListener("keydown", this.handleKeyPress);
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener('keydown', this.handleKeyPress);
+		window.removeEventListener("keydown", this.handleKeyPress);
 	}
 
 	refrenceClickHandler = () => {
-		if (this.scheduleUpdate) this.scheduleUpdate();
+		if (this.scheduleUpdate) { this.scheduleUpdate(); }
 	}
 
 	render() {
@@ -161,7 +161,7 @@ class MultipleSelect extends React.Component<Props, State> {
 							key={index}
 							onClick={() => this.onSelectItem(index)}
 							className={
-								`${prefixClassName}_list_item` + (currentList === 1 && acvtiveUnselectedItem === index ? ' js-active' : '')
+								`${prefixClassName}_list_item` + (currentList === 1 && acvtiveUnselectedItem === index ? " js-active" : "")
 							}
 						>
 							<span>{i.label}</span>
@@ -174,7 +174,7 @@ class MultipleSelect extends React.Component<Props, State> {
 				{selectedItems.map((i, index) => (
 					<div
 						key={index}
-						className={`${prefixClassName}_list_item` + (currentList === 2 && acvtiveSelectedItem === index ? ' js-active' : '')}
+						className={`${prefixClassName}_list_item` + (currentList === 2 && acvtiveSelectedItem === index ? " js-active" : "")}
 					>
 						<span>{i.label}</span>
 						<i className={`${prefixClassName}_list_item_cross-icon`} onClick={() => this.onDeselectItem(index)}>
@@ -188,8 +188,8 @@ class MultipleSelect extends React.Component<Props, State> {
 			<div className={`${prefixClassName}` + ` ${inputStyle}`}>
 				<div className={`${prefixClassName}_summary-wrapper`} hidden={showLists || selectedItems.length < 1}>
 					<span className={`${prefixClassName}_summary`} onClick={this.onFocus}>
-						{selectedItems.length > 0 ? selectedItems[0].label : ''}
-						{selectedItems.length > 1 && '...'}
+						{selectedItems.length > 0 ? selectedItems[0].label : ""}
+						{selectedItems.length > 1 && "..."}
 					</span>
 				</div>
 				<Manager>
