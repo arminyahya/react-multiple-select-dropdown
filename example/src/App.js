@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import MultipleSelect from 'react-multiple-select-dropdown';
+import { hot } from 'react-hot-loader/root';
+import './App.css';
+
 class App extends Component {
 	state = {
 		selectedItems: [],
@@ -24,13 +27,14 @@ class App extends Component {
 					selectedItems={selectedItems}
 					unSelectedItems={unSelectedItems}
 					onChange={this.onChange}
-					direction={'ltr'}
-					renderUnSelectedItem={item => <div className="custome unselected">{item.label} </div>}
-					renderSelectedItem={item => <div className="custome selected">{item.label} </div>}
+					direction={'rtl'}
+					theme={'dark'}
+					// renderUnSelectedItem={item => <div className="custome unselected">{item.label} </div>}
+					// renderSelectedItem={item => <div className="custome selected">{item.label} </div>}
 				/>
 			</div>
 		);
 	}
 }
 
-export default App;
+export default hot(App);

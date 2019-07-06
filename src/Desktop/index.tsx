@@ -116,9 +116,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 
 		let list;
 		if (currentList === ListType.unselected) {
-			list = document.querySelector(".y-multiple-select_list--unselected") as HTMLElement;
+			list = document.querySelector(".multiple-select_list--unselected") as HTMLElement;
 		} else {
-			list = document.querySelector(".y-multiple-select_list--selected") as HTMLElement;
+			list = document.querySelector(".multiple-select_list--selected") as HTMLElement;
 		}
 		const activeItem = list.querySelector(".js-active") as HTMLElement;
 
@@ -189,7 +189,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		// console.log(acvtiveUnselectedItem);
 		const unSelectedList = (
 			<div
-				className={"y-multiple-select_list y-multiple-select_list--unselected" + (addable ? " js-addable" : "")}
+				className={"multiple-select_list multiple-select_list--unselected" + (addable ? " js-addable" : "")}
 				role="listbox"
 				aria-labelledby="ss_elem"
 			>
@@ -201,7 +201,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 								key={index}
 								onClick={() => this.onSelectItem(index)}
 								className={
-									"y-multiple-select_list_item" + (currentList === ListType.unselected && acvtiveUnselectedItem === index ? " js-active" : "")
+									"multiple-select_list_item" + (currentList === ListType.unselected && acvtiveUnselectedItem === index ? " js-active" : "")
 								}
 								role="option"
 							>
@@ -213,21 +213,12 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		);
 		const selectedList = (
 			<div
-				className={"y-multiple-select_list y-multiple-select_list--selected" + (selectedItems.length > 0 ? " js-show-remove-all" : "")}
+				className={"multiple-select_list multiple-select_list--selected"}
 			>
-				<div
-					key={-1}
-					onClick={() => { this.onDeselectAll(); }}
-					className={
-						"y-multiple-select_list_item-remove-all"
-					}
-				>
-					<span>remove all</span><TrashIcon />
-				</div>
 				{selectedItems.map((i, index) => (
 					<div
 						key={index}
-						className={"y-multiple-select_list_item" + (currentList === ListType.selected && acvtiveSelectedItem === index ? " js-active" : "")}
+						className={"multiple-select_list_item" + (currentList === ListType.selected && acvtiveSelectedItem === index ? " js-active" : "")}
 						onClick={() => this.onDeselectItem(index)}
 					>
 						{renderSelectedItem ? renderSelectedItem(i) : <React.Fragment><span>{i.label}</span> <TrashIcon /></React.Fragment >}
@@ -237,9 +228,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 			</div>
 		);
 		return (
-			<div className={"y-multiple-select" + ` ${inputStyle}`}>
-				<div className="y-multiple-select_summary-wrapper" hidden={showLists || selectedItems.length < 1}>
-					<span className="y-multiple-select_summary" onClick={this.onFocus}>
+			<div className={"multiple-select" + ` ${inputStyle}`}>
+				<div className="multiple-select_summary-wrapper" hidden={showLists || selectedItems.length < 1}>
+					<span className="multiple-select_summary" onClick={this.onFocus}>
 						{selectedItems.length > 0 ? selectedItems[0].label : ""}
 						{selectedItems.length > 1 && "..."}
 					</span>
@@ -247,9 +238,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 				<Manager>
 					<Reference>
 						{({ ref }) => (
-							<div className="y-multiple-select_trigger_wrapper" ref={ref}>
+							<div className="multiple-select_trigger_wrapper" ref={ref}>
 								<input
-									className="y-multiple-select_trigger"
+									className="multiple-select_trigger"
 									onChange={e => {
 										if (onInputChange) {
 											onInputChange(e.target.value);
@@ -277,9 +268,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 												ref={ref}
 												style={style}
 												data-placement={placement}
-												className={"y-multiple-select_lists" + (popperClassName ? " " + popperClassName : "") + (" " + theme)}
+												className={"multiple-select_lists" + (popperClassName ? " " + popperClassName : "") + (" " + theme)}
 											>
-												<div className="y-multiple-select_lists_inner">
+												<div className="multiple-select_lists_inner">
 													{unSelectedList}
 													{!!selectedItems.length && selectedList}
 												</div>

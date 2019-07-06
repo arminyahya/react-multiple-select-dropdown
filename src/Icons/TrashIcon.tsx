@@ -9,7 +9,7 @@ export default class TrashIcon extends React.PureComponent<Props> {
 			<div
 				{...this.props}
 				className={
-					"y-icon y-icon--trash" +
+					"icon icon--trash" +
 					(this.props.className ? " " + this.props.className : "")
 				}
 			>

@@ -102,12 +102,12 @@ export default class MultipleSelect extends React.Component<Props, States> {
 			addable, addText, onAddNewItem, selectedTabLabel, unselectedTabLabel } = this.props;
 		const { showLists, currentTab } = this.state;
 		const unSelectedList = (
-			<div className={"y-multiple-select_list y-multiple-select_list--unselected" + (addable ? " js-addable" : "")}>
+			<div className={"multiple-select_list multiple-select_list--unselected" + (addable ? " js-addable" : "")}>
 				{addable && (<div
 					key={-1}
 					onClick={() => { if (onAddNewItem) { onAddNewItem(); } }}
 					className={
-						"y-multiple-select_list_item-add"
+						"multiple-select_list_item-add"
 					}
 				>
 					<span>{addText}</span><CircleAddIcon />
@@ -119,7 +119,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 							key={index}
 							onClick={() => this.onSelectItem(index)}
 							className={
-								"y-multiple-select_list_item"
+								"multiple-select_list_item"
 							}
 						>
 							<span>{i.label}</span>
@@ -128,22 +128,12 @@ export default class MultipleSelect extends React.Component<Props, States> {
 			</div>
 		);
 		const selectedList = (
-			<div className={"y-multiple-select_list y-multiple-select_list--selected" + (selectedItems.length > 0 ? " js-show-remove-all" : "")}>
-				{!!selectedItems.length &&
-					<div
-						key={-1}
-						onClick={() => { this.onDeselectAll(); }}
-						className={
-							"y-multiple-select_list_item-remove-all"
-						}
-					>
-						<span>remove all</span> <TrashIcon />
-					</div>
-				}
+			<div className={"multiple-select_list multiple-select_list--selected"}>
+
 				{selectedItems.map((i, index) => (
 					<div
 						key={index}
-						className={"y-multiple-select_list_item"}
+						className={"multiple-select_list_item"}
 						onClick={() => this.onDeselectItem(index)}
 					>
 						<span>{i.label}</span>
@@ -153,9 +143,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 			</div>
 		);
 		return (
-			<div className={"y-multiple-select" + ` ${inputStyle}`}>
-				<div className="y-multiple-select_summary-wrapper" hidden={showLists || selectedItems.length < 1}>
-					<span className="y-multiple-select_summary" onClick={this.onFocus}>
+			<div className={"multiple-select" + ` ${inputStyle}`}>
+				<div className="multiple-select_summary-wrapper" hidden={showLists || selectedItems.length < 1}>
+					<span className="multiple-select_summary" onClick={this.onFocus}>
 						{selectedItems.length > 0 ? selectedItems[0].label : ""}
 						{selectedItems.length > 1 && "..."}
 					</span>
@@ -163,9 +153,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 				<Manager>
 					<Reference>
 						{({ ref }) => (
-							<div className="y-multiple-select_trigger_wrapper" ref={ref}>
+							<div className="multiple-select_trigger_wrapper" ref={ref}>
 								<input
-									className="y-multiple-select_trigger"
+									className="multiple-select_trigger"
 									onChange={e => {
 										if (onInputChange) {
 											onInputChange(e.target.value);
@@ -192,11 +182,11 @@ export default class MultipleSelect extends React.Component<Props, States> {
 												ref={ref}
 												style={style}
 												data-placement={placement}
-												className={"y-multiple-select_lists" + (popperClassName ? " " + popperClassName : "")}
+												className={"multiple-select_lists" + (popperClassName ? " " + popperClassName : "")}
 											>
-												<div className="y-multiple-select_tab_header">
+												<div className="multiple-select_tab_header">
 													<div
-														className={"y-multiple-select_tab_header_item" + (currentTab === "unselected" ? " js-active" : "")}
+														className={"multiple-select_tab_header_item" + (currentTab === "unselected" ? " js-active" : "")}
 														onClick={() => { this.setState({ currentTab: "unselected" }); }}
 													>
 														<span>
@@ -204,7 +194,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 														</span>
 													</div>
 													<div
-														className={"y-multiple-select_tab_header_item" + (currentTab === "selected" ? " js-active" : "")}
+														className={"multiple-select_tab_header_item" + (currentTab === "selected" ? " js-active" : "")}
 														onClick={() => { this.setState({ currentTab: "selected" }); }}
 													>
 														<span>
@@ -213,10 +203,10 @@ export default class MultipleSelect extends React.Component<Props, States> {
 													</div>
 												</div>
 												{currentTab === "unselected" ?
-													<div className={"y-multiple-select_tab_inner"}>
+													<div className={"multiple-select_tab_inner"}>
 														{unSelectedList}
 													</div>
-													: <div className={"y-multiple-select_tab_inner"}>
+													: <div className={"multiple-select_tab_inner"}>
 														{selectedList}
 													</div>}
 											</div>

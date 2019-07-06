@@ -8,9 +8,7 @@ import withHandleClickOutside from "./HandleClickOutside";
 const DesktopHoc: any = withHandleClickOutside(Desktop);
 const MobileHoc: any = withHandleClickOutside(Mobile);
 
-interface Props extends CommonProp {
-
-}
+interface Props extends CommonProp { }
 
 const MultipleSelect = (props: Props) => (
 	<MediaQuery query={`(min-width: ${props.breackPoint || 991}px)`}>
