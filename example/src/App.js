@@ -27,8 +27,9 @@ class App extends Component {
 					selectedItems={selectedItems}
 					unSelectedItems={unSelectedItems}
 					onChange={this.onChange}
-					direction={'rtl'}
-					theme={'dark'}
+					direction={'ltr'}
+					theme={'default'}
+					breackPoint="575"
 					// renderUnSelectedItem={item => <div className="custome unselected">{item.label} </div>}
 					// renderSelectedItem={item => <div className="custome selected">{item.label} </div>}
 				/>
