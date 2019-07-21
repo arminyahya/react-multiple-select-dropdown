@@ -4,7 +4,7 @@ export interface CommonProp {
 	popperClassName?: string;
 	selectedItems: ValueLabelModel[];
 	unSelectedItems: ValueLabelModel[];
-	onInputChange: (val: string) => void;
+	onInputChange?: (val: string) => void;
 	onChange: (selectedItems: ValueLabelModel[]) => void;
 	onFocus?: () => void;
 	onBlur?: () => void;
