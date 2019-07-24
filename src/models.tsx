@@ -18,8 +18,8 @@ export interface CommonProp {
 	placement?: PopperJS.Placement;
 	theme?: "default" | "dark";
 	direction?: "rtl" | "ltr";
-	renderUnSelectedItem?: (item: ValueLabelModel) => React.ReactNode;
-	renderSelectedItem?: (item: ValueLabelModel) => React.ReactNode;
+	renderUnSelectedOption?: (item: ValueLabelModel) => React.ReactNode;
+	renderSelectedOption?: (item: ValueLabelModel) => React.ReactNode;
 }
 
 export interface ValueLabelModel {

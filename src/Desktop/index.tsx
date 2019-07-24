@@ -184,7 +184,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	render() {
-		const { onInputChange, selectedOptions, options, popperClassName, addable, theme, renderUnSelectedItem, renderSelectedItem } = this.props;
+		const { onInputChange, selectedOptions, options, popperClassName, addable, theme, renderUnSelectedOption, renderSelectedOption } = this.props;
 		const { showLists, currentList, acvtiveSelectedItem, acvtiveUnselectedItem } = this.state;
 		// console.log(acvtiveUnselectedItem);
 		const unSelectedList = (
@@ -205,7 +205,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 								}
 								role="option"
 							>
-								{renderUnSelectedItem ? renderUnSelectedItem(i) : <span>{i.label}</span>}
+								{renderUnSelectedOption ? renderUnSelectedOption(i) : <span>{i.label}</span>}
 							</li>
 						);
 					})}
@@ -221,7 +221,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 						className={"multiple-select_list_item" + (currentList === ListType.selected && acvtiveSelectedItem === index ? " js-active" : "")}
 						onClick={() => this.onDeselectItem(index)}
 					>
-						{renderSelectedItem ? renderSelectedItem(i) : <React.Fragment><span>{i.label}</span> <TrashIcon /></React.Fragment >}
+						{renderSelectedOption ? renderSelectedOption(i) : <React.Fragment><span>{i.label}</span> <TrashIcon /></React.Fragment >}
 
 					</div>
 				))}
