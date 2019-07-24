@@ -24,8 +24,8 @@ class App extends Component {
 		return (
 			<div>
 				<MultipleSelect
-					selectedItems={selectedItems}
-					unSelectedItems={unSelectedItems}
+					selectedOptions={selectedItems}
+					options={unSelectedItems}
 					onChange={this.onChange}
 					direction={'ltr'}
 					theme={'default'}

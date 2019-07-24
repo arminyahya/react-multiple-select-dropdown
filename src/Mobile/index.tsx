@@ -47,9 +47,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 
 	onSelectItem = (selectedIndex: number) => {
 		this.scheduleUpdate();
-		let selectedItems: ValueLabelModel[] = [...this.props.selectedItems];
-		selectedItems.push(this.props.unSelectedItems.filter(u => !selectedItems.find(s => u.value === s.value))[selectedIndex]);
-		this.props.onChange(selectedItems);
+		let selectedOptions: ValueLabelModel[] = [...this.props.selectedOptions];
+		selectedOptions.push(this.props.options.filter(u => !selectedOptions.find(s => u.value === s.value))[selectedIndex]);
+		this.props.onChange(selectedOptions);
 		// @ts-ignore
 		this.inputRef.current.focus();
 		setTimeout(() => {
@@ -58,10 +58,10 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	onDeselectItem = (unSelectedIndex: number) => {
-		let selectedItems = [...this.props.selectedItems];
-		selectedItems.splice(unSelectedIndex, 1);
-		this.props.onChange(selectedItems);
-		if (selectedItems.length === 0) {
+		let selectedOptions = [...this.props.selectedOptions];
+		selectedOptions.splice(unSelectedIndex, 1);
+		this.props.onChange(selectedOptions);
+		if (selectedOptions.length === 0) {
 			this.onBlur();
 		}
 		// if (this.scheduleUpdate) this.scheduleUpdate();
@@ -98,7 +98,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	render() {
-		const { onInputChange, selectedItems, unSelectedItems, popperClassName,
+		const { onInputChange, selectedOptions, options, popperClassName,
 			addable, addText, onAddNewItem, selectedTabLabel, unselectedTabLabel } = this.props;
 		const { showLists, currentTab } = this.state;
 		const unSelectedList = (
@@ -112,8 +112,8 @@ export default class MultipleSelect extends React.Component<Props, States> {
 				>
 					<span>{addText}</span><CircleAddIcon />
 				</div>)}
-				{unSelectedItems
-					.filter(u => !selectedItems.find(s => u.value === s.value))
+				{options
+					.filter(u => !selectedOptions.find(s => u.value === s.value))
 					.map((i, index) => (
 						<div
 							key={index}
@@ -130,7 +130,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		const selectedList = (
 			<div className={"multiple-select_list multiple-select_list--selected"}>
 
-				{selectedItems.map((i, index) => (
+				{selectedOptions.map((i, index) => (
 					<div
 						key={index}
 						className={"multiple-select_list_item"}
@@ -144,10 +144,10 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		);
 		return (
 			<div className={"multiple-select" + ` ${inputStyle}`}>
-				<div className="multiple-select_summary-wrapper" hidden={showLists || selectedItems.length < 1}>
+				<div className="multiple-select_summary-wrapper" hidden={showLists || selectedOptions.length < 1}>
 					<span className="multiple-select_summary" onClick={this.onFocus}>
-						{selectedItems.length > 0 ? selectedItems[0].label : ""}
-						{selectedItems.length > 1 && "..."}
+						{selectedOptions.length > 0 ? selectedOptions[0].label : ""}
+						{selectedOptions.length > 1 && "..."}
 					</span>
 				</div>
 				<Manager>

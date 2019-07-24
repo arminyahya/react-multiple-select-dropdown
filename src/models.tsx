@@ -2,8 +2,8 @@ import * as PopperJS from "popper.js";
 
 export interface CommonProp {
 	popperClassName?: string;
-	selectedItems: ValueLabelModel[];
-	unSelectedItems: ValueLabelModel[];
+	selectedOptions: ValueLabelModel[];
+	options: ValueLabelModel[];
 	onInputChange?: (val: string) => void;
 	onChange: (selectedItems: ValueLabelModel[]) => void;
 	onFocus?: () => void;

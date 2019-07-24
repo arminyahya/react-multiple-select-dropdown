@@ -55,9 +55,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	onSelectItem = (selectedIndex: number) => {
-		let selectedItems = [...this.props.selectedItems];
-		selectedItems.push(this.props.unSelectedItems.filter(u => !selectedItems.find(s => u.value === s.value))[selectedIndex]);
-		this.props.onChange(selectedItems);
+		let selectedOptions = [...this.props.selectedOptions];
+		selectedOptions.push(this.props.options.filter(u => !selectedOptions.find(s => u.value === s.value))[selectedIndex]);
+		this.props.onChange(selectedOptions);
 		// @ts-ignore
 		this.inputRef.current.focus();
 		this.setState({ acvtiveUnselectedItem: 0 });
@@ -67,16 +67,16 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	onDeselectItem = (unSelectedIndex: number) => {
-		let selectedItems = [...this.props.selectedItems];
-		selectedItems.splice(unSelectedIndex, 1);
-		this.props.onChange(selectedItems);
-		if (selectedItems.length === 0) {
+		let selectedOptions = [...this.props.selectedOptions];
+		selectedOptions.splice(unSelectedIndex, 1);
+		this.props.onChange(selectedOptions);
+		if (selectedOptions.length === 0) {
 			this.onBlur();
 		}
 		this.setState(
 			{
 				acvtiveSelectedItem: 0,
-				currentList: selectedItems.length === 0 ? ListType.unselected : this.state.currentList
+				currentList: selectedOptions.length === 0 ? ListType.unselected : this.state.currentList
 			}
 		);
 		// if (this.scheduleUpdate) this.scheduleUpdate();
@@ -108,7 +108,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	handleKeyPress = (e: any) => {
-		const { selectedItems, unSelectedItems } = this.props;
+		const { selectedOptions, options } = this.props;
 		const { currentList, acvtiveSelectedItem, acvtiveUnselectedItem, showLists } = this.state;
 		if (!showLists) {
 			return;
@@ -143,24 +143,24 @@ export default class MultipleSelect extends React.Component<Props, States> {
 			case "ArrowDown":
 				list.scrollTop = activeItem.offsetTop;
 				if (
-					currentList === ListType.unselected && (acvtiveUnselectedItem + 1) < unSelectedItems
-						.filter(u => !selectedItems.find(s => u.value === s.value)).length
+					currentList === ListType.unselected && (acvtiveUnselectedItem + 1) < options
+						.filter(u => !selectedOptions.find(s => u.value === s.value)).length
 				) {
 					this.setState({ acvtiveUnselectedItem: acvtiveUnselectedItem + 1 });
-				} else if (currentList === ListType.selected && (acvtiveSelectedItem + 1) < selectedItems.length) {
+				} else if (currentList === ListType.selected && (acvtiveSelectedItem + 1) < selectedOptions.length) {
 					this.setState({ acvtiveSelectedItem: acvtiveSelectedItem + 1 });
 				}
 				break;
 
 			case "ArrowRight":
-				if (selectedItems.length > 0 && currentList === ListType.unselected) {
+				if (selectedOptions.length > 0 && currentList === ListType.unselected) {
 					this.setState({ currentList: ListType.selected, acvtiveSelectedItem: 0, acvtiveUnselectedItem: 1 });
 				}
 				break;
 
 			case "ArrowLeft":
-				if (unSelectedItems
-					.filter(u => !selectedItems.find(s => u.value === s.value)).length > 0 && currentList === ListType.selected) {
+				if (options
+					.filter(u => !selectedOptions.find(s => u.value === s.value)).length > 0 && currentList === ListType.selected) {
 					this.setState({ currentList: ListType.unselected, acvtiveSelectedItem: -1, acvtiveUnselectedItem: 0 });
 				}
 				break;
@@ -184,7 +184,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	render() {
-		const { onInputChange, selectedItems, unSelectedItems, popperClassName, addable, theme, renderUnSelectedItem, renderSelectedItem } = this.props;
+		const { onInputChange, selectedOptions, options, popperClassName, addable, theme, renderUnSelectedItem, renderSelectedItem } = this.props;
 		const { showLists, currentList, acvtiveSelectedItem, acvtiveUnselectedItem } = this.state;
 		// console.log(acvtiveUnselectedItem);
 		const unSelectedList = (
@@ -193,8 +193,8 @@ export default class MultipleSelect extends React.Component<Props, States> {
 				role="listbox"
 				aria-labelledby="ss_elem"
 			>
-				{unSelectedItems
-					.filter(u => !selectedItems.find(s => u.value === s.value))
+				{options
+					.filter(u => !selectedOptions.find(s => u.value === s.value))
 					.map((i, index) => {
 						return (
 							<li
@@ -215,7 +215,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 			<div
 				className={"multiple-select_list multiple-select_list--selected"}
 			>
-				{selectedItems.map((i, index) => (
+				{selectedOptions.map((i, index) => (
 					<div
 						key={index}
 						className={"multiple-select_list_item" + (currentList === ListType.selected && acvtiveSelectedItem === index ? " js-active" : "")}
@@ -229,10 +229,10 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		);
 		return (
 			<div className={"multiple-select" + ` ${inputStyle}`}>
-				<div className="multiple-select_summary-wrapper" hidden={showLists || selectedItems.length < 1}>
+				<div className="multiple-select_summary-wrapper" hidden={showLists || selectedOptions.length < 1}>
 					<span className="multiple-select_summary" onClick={this.onFocus}>
-						{selectedItems.length > 0 ? selectedItems[0].label : ""}
-						{selectedItems.length > 1 && "..."}
+						{selectedOptions.length > 0 ? selectedOptions[0].label : ""}
+						{selectedOptions.length > 1 && "..."}
 					</span>
 				</div>
 				<Manager>
@@ -272,7 +272,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 											>
 												<div className="multiple-select_lists_inner">
 													{unSelectedList}
-													{!!selectedItems.length && selectedList}
+													{!!selectedOptions.length && selectedList}
 												</div>
 											</div>
 										</div>
