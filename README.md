@@ -44,7 +44,7 @@ class YourWrapperComponent extends Component {
     </div>
 );
 ```
-to see props go to https://reactmultipleselectdropdown.netlify.com/docs
+to see props go to [docs](https://reactmultipleselectdropdown.netlify.com/docs)
 ## License
 
 MIT © [arminyahya](https://github.com/arminyahya)
