@@ -1,16 +1,16 @@
 import * as React from "react";
-import MultipleSelect from '../MultipleSelect';
+import MultipleSelect from "../index";
 class App extends React.Component<any, any> {
   state = {
     selectedItems: [],
     unSelectedItems: [
-      { value: 1, label: 'react' },
-      { value: 2, label: 'reactnative' },
-      { value: 3, label: 'nodejs' },
-      { value: 4, label: 'redux' },
-      { value: 5, label: 'mobx' }
+      { value: 1, label: "react" },
+      { value: 2, label: "reactnative" },
+      { value: 3, label: "nodejs" },
+      { value: 4, label: "redux" },
+      { value: 5, label: "mobx" }
     ]
-  }
+  };
 
   onChange = (selectedItems: any) => {
     this.setState({ selectedItems: selectedItems });
@@ -21,8 +21,8 @@ class App extends React.Component<any, any> {
     return (
       <div>
         <MultipleSelect
-          selectedItems={selectedItems}
-          unSelectedItems={unSelectedItems}
+          selectedOptions={selectedItems}
+          options={unSelectedItems}
           onChange={this.onChange}
         />
       </div>

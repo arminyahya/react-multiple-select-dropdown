@@ -2,23 +2,24 @@ import * as React from "react";
 import { shallow, mount, render } from "enzyme";
 import MultipleSelect from "./MultipleSelect";
 import LibMultipleSelect from "../MultipleSelect";
-
+import { TrashIcon } from "../../src/Icons";
 
 describe("Component: MultipleSelect", () => {
 
 	const component = mount(<MultipleSelect />);
 	it("check if items move after click ", () => {
+
 		const reactItem = component.findWhere(n => { return n.text() === "react"; });
 		reactItem.find(".multiple-select_list_item").simulate("click");
-		expect(component.find(".multiple-select_list--selected").containsMatchingElement(
-			<div className="multiple-select_list_item"><span>react</span><i>✖</i></div>
-		)).toBe(true);
+		expect(component.find(".multiple-select_list--selected").containsMatchingElement
+			(<div className="multiple-select_list_item"><React.Fragment><span>react</span><TrashIcon /></React.Fragment ></div>)).toBe(true);
 	});
 
 	it("check if items move back after click on x icon", () => {
-		component.find(".multiple-select_list_item_cross-icon").simulate("click");
+
+		component.find(".icon--trash").simulate("click");
 		expect(component.find(".multiple-select_list--unselected").containsMatchingElement(
-			<div className="multiple-select_list_item js-active"><span>react</span></div>
+			<li className="multiple-select_list_item js-active"><span>react</span></li>
 		)).toBe(true);
 		// component.unmount()
 	});

@@ -1,5 +1,6 @@
 module.exports = {
-    setupTestFrameworkScriptFile: "<rootDir>/setupTests.ts",
+    "setupFiles": ["<rootDir>/shim.js", "<rootDir>/setupTests.ts"],
+    // setupTestFrameworkScriptFile: "<rootDir>/setupTests.ts",
     testEnvironment: "node",
     testMatch: [
         "**/**/*.test.ts?(x)", "**/**/*.test.js?(x)", "**/?(*.)+(spec|test).js?(x)"

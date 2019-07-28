@@ -221,9 +221,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 						className={"multiple-select_list_item" + (currentList === ListType.selected && acvtiveSelectedItem === index ? " js-active" : "")}
 						onClick={() => this.onDeselectItem(index)}
 					>
-						{renderSelectedOption ? renderSelectedOption(i) : <React.Fragment><span>{i.label}</span> <TrashIcon /></React.Fragment >}
-
-					</div>
+						{renderSelectedOption ? renderSelectedOption(i) : <React.Fragment><span>{i.label}</span><TrashIcon/></React.Fragment >}</div>
 				))}
 			</div>
 		);
