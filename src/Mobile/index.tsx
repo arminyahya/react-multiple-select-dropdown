@@ -2,10 +2,10 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Manager, Reference, Popper } from "react-popper";
 import { popperPortal } from "../PopperPortal";
-import { CircleAddIcon, TrashIcon } from "../Icons";
+import { TrashIcon } from "../Icons";
 import { inputStyle, popperStyle } from "../Style";
 import { ValueLabelModel, CommonProp } from "../models";
-
+import { FixedSizeList as List } from 'react-window';
 
 interface Props extends CommonProp {
 }
@@ -13,6 +13,7 @@ interface Props extends CommonProp {
 interface States {
 	showLists: boolean;
 	currentTab: string;
+	unSelectedList: ValueLabelModel[];
 }
 
 export default class MultipleSelect extends React.Component<Props, States> {
@@ -21,13 +22,22 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		unselectedTabLabel: "unselected",
 		placement: "bottom-end"
 	};
+	static getDerivedStateFromProps(props: Props, state: States) {
+		return {
+			...state,
+			unSelectedList: props.options
+				.filter(u => !props.selectedOptions.find(s => u.value === s.value))
+
+		}
+	}
 	inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 	scheduleUpdate: () => void;
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			showLists: false,
-			currentTab: "unselected"
+			currentTab: "unselected",
+			unSelectedList: props.options
 		};
 	}
 
@@ -97,49 +107,81 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		if (this.scheduleUpdate) { this.scheduleUpdate(); }
 	}
 
+	unSelectedRow = ({ index, style }: { index: number, style: any }) => {
+		const { renderUnSelectedOption } = this.props;
+		const { unSelectedList } = this.state;
+		return (
+			<div
+				style={style}
+				key={index}
+				className={
+					"multiple-select_list_item"}>
+				<li
+					onClick={() => this.onSelectItem(index)}
+
+					role="option"
+
+				>
+					{renderUnSelectedOption ? renderUnSelectedOption(unSelectedList[index]) : <span>{unSelectedList[index].label}</span>}
+				</li>
+			</div>
+		);
+	}
+
+	selectedRow = ({ index, style }: { index: number, style: any }) => {
+		const { renderSelectedOption, selectedOptions } = this.props;
+		return (
+
+			<div
+				style={style}
+				key={index}
+				className={"multiple-select_list_item"}
+			>
+				<li
+
+					onClick={() => this.onDeselectItem(index)}
+				>
+					{renderSelectedOption ? renderSelectedOption(selectedOptions[index]) : <React.Fragment><span>{selectedOptions[index].label}</span><TrashIcon /></React.Fragment >}
+				</li>
+			</div>
+		);
+	}
+
 	render() {
-		const { onInputChange, selectedOptions, options, popperClassName,
-			addable, addText, onAddNewItem, selectedTabLabel, unselectedTabLabel } = this.props;
+		const { onInputChange, selectedOptions, popperClassName, selectedTabLabel, unselectedTabLabel } = this.props;
 		const { showLists, currentTab } = this.state;
 		const unSelectedList = (
-			<div className={"multiple-select_list multiple-select_list--unselected" + (addable ? " js-addable" : "")}>
-				{addable && (<div
-					key={-1}
-					onClick={() => { if (onAddNewItem) { onAddNewItem(); } }}
-					className={
-						"multiple-select_list_item-add"
-					}
+			<div
+				className={"multiple-select_list multiple-select_list--unselected"}
+				role="listbox"
+				aria-labelledby="ss_elem"
+			>
+				<List
+					height={200}
+					itemCount={this.state.unSelectedList.length}
+					itemSize={40}
+					width={240}
+					style={{ overflowY: 'auto', overflowX: 'initial' }}
+					className="multiple-select_list--unselected--virutual"
 				>
-					<span>{addText}</span><CircleAddIcon />
-				</div>)}
-				{options
-					.filter(u => !selectedOptions.find(s => u.value === s.value))
-					.map((i, index) => (
-						<div
-							key={index}
-							onClick={() => this.onSelectItem(index)}
-							className={
-								"multiple-select_list_item"
-							}
-						>
-							<span>{i.label}</span>
-						</div>
-					))}
+					{this.unSelectedRow}
+				</List>
 			</div>
 		);
 		const selectedList = (
-			<div className={"multiple-select_list multiple-select_list--selected"}>
-
-				{selectedOptions.map((i, index) => (
-					<div
-						key={index}
-						className={"multiple-select_list_item"}
-						onClick={() => this.onDeselectItem(index)}
-					>
-						<span>{i.label}</span>
-						<TrashIcon />
-					</div>
-				))}
+			<div
+				className={"multiple-select_list multiple-select_list--selected"}
+			>
+				<List
+					height={200}
+					itemCount={this.props.selectedOptions.length}
+					itemSize={40}
+					width={240}
+					style={{ overflowY: 'auto', overflowX: 'initial' }}
+					className="multiple-select_list--selected--virutual"
+				>
+					{this.selectedRow}
+				</List>
 			</div>
 		);
 		return (

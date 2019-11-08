@@ -4,7 +4,8 @@ import { Manager, Reference, Popper } from "react-popper";
 import { TrashIcon } from "../Icons";
 import { popperPortal } from "../PopperPortal";
 import { inputStyle, popperStyle } from "../Style";
-import { CommonProp } from "../models";
+import { CommonProp, ValueLabelModel } from "../models";
+import { FixedSizeList as List } from 'react-window';
 
 enum ListType {
 	unselected,
@@ -20,6 +21,8 @@ interface States {
 	acvtiveUnselectedItem: number;
 	acvtiveSelectedItem: number;
 	currentList: ListType;
+	unSelectedList: ValueLabelModel[];
+
 }
 
 export default class MultipleSelect extends React.Component<Props, States> {
@@ -27,16 +30,25 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		placement: "bottom-end",
 		theme: "default"
 	};
+	static getDerivedStateFromProps(props: Props, state: States) {
+		return {
+			...state,
+			unSelectedList: props.options
+				.filter(u => !props.selectedOptions.find(s => u.value === s.value))
 
+		}
+	}
 	inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 	scheduleUpdate: () => void;
 	constructor(props: Props) {
 		super(props);
+		const isAllSelected = props.selectedOptions.length === props.options.length
 		this.state = {
 			showLists: false,
-			acvtiveUnselectedItem: 0,
-			acvtiveSelectedItem: -1,
-			currentList: ListType.unselected
+			acvtiveUnselectedItem: isAllSelected ? -1 : 0,
+			acvtiveSelectedItem: isAllSelected ? 0 : -1,
+			unSelectedList: props.options,
+			currentList: isAllSelected ? ListType.selected : ListType.unselected,
 		};
 	}
 
@@ -116,12 +128,11 @@ export default class MultipleSelect extends React.Component<Props, States> {
 
 		let list;
 		if (currentList === ListType.unselected) {
-			list = document.querySelector(".multiple-select_list--unselected") as HTMLElement;
+			list = document.querySelector(".multiple-select_list--unselected--virutual") as HTMLElement;
 		} else {
-			list = document.querySelector(".multiple-select_list--selected") as HTMLElement;
+			list = document.querySelector(".multiple-select_list--selected--virutual") as HTMLElement;
 		}
 		const activeItem = list.querySelector(".js-active") as HTMLElement;
-
 		switch (e.key) {
 			case "Enter":
 				if (currentList === ListType.unselected) {
@@ -183,9 +194,51 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		if (this.scheduleUpdate) { this.scheduleUpdate(); }
 	}
 
+	unSelectedRow = ({ index, style }: { index: number, style: any }) => {
+		const { renderUnSelectedOption } = this.props;
+		const { currentList, acvtiveUnselectedItem, unSelectedList } = this.state;
+		return (
+			<div
+				style={style}
+				key={index}
+				className={
+					"multiple-select_list_item" + (currentList === ListType.unselected && acvtiveUnselectedItem === index ? " js-active" : "")
+				}>
+				<li
+					onClick={() => this.onSelectItem(index)}
+
+					role="option"
+
+				>
+					{renderUnSelectedOption ? renderUnSelectedOption(unSelectedList[index]) : <span>{unSelectedList[index].label}</span>}
+				</li>
+			</div>
+		);
+	}
+
+	selectedRow = ({ index, style }: { index: number, style: any }) => {
+		const { renderSelectedOption, selectedOptions } = this.props;
+		const { currentList, acvtiveSelectedItem } = this.state;
+		return (
+
+			<div
+				style={style}
+				key={index}
+				className={"multiple-select_list_item" + (currentList === ListType.selected && acvtiveSelectedItem === index ? " js-active" : "")}
+			>
+				<li
+
+					onClick={() => this.onDeselectItem(index)}
+				>
+					{renderSelectedOption ? renderSelectedOption(selectedOptions[index]) : <React.Fragment><span>{selectedOptions[index].label}</span><TrashIcon /></React.Fragment >}
+				</li>
+			</div>
+		);
+	}
+
 	render() {
-		const { onInputChange, selectedOptions, options, popperClassName, addable, theme, renderUnSelectedOption, renderSelectedOption } = this.props;
-		const { showLists, currentList, acvtiveSelectedItem, acvtiveUnselectedItem } = this.state;
+		const { onInputChange, selectedOptions, popperClassName, addable, theme } = this.props;
+		const { showLists } = this.state;
 		// console.log(acvtiveUnselectedItem);
 		const unSelectedList = (
 			<div
@@ -193,36 +246,32 @@ export default class MultipleSelect extends React.Component<Props, States> {
 				role="listbox"
 				aria-labelledby="ss_elem"
 			>
-				{options
-					.filter(u => !selectedOptions.find(s => u.value === s.value))
-					.map((i, index) => {
-						return (
-							<li
-								key={index}
-								onClick={() => this.onSelectItem(index)}
-								className={
-									"multiple-select_list_item" + (currentList === ListType.unselected && acvtiveUnselectedItem === index ? " js-active" : "")
-								}
-								role="option"
-							>
-								{renderUnSelectedOption ? renderUnSelectedOption(i) : <span>{i.label}</span>}
-							</li>
-						);
-					})}
+				<List
+					height={200}
+					itemCount={this.state.unSelectedList.length}
+					itemSize={40}
+					width={240}
+					style={{ overflowY: 'auto', overflowX: 'initial' }}
+					className="multiple-select_list--unselected--virutual"
+				>
+					{this.unSelectedRow}
+				</List>
 			</div>
 		);
 		const selectedList = (
 			<div
 				className={"multiple-select_list multiple-select_list--selected"}
 			>
-				{selectedOptions.map((i, index) => (
-					<div
-						key={index}
-						className={"multiple-select_list_item" + (currentList === ListType.selected && acvtiveSelectedItem === index ? " js-active" : "")}
-						onClick={() => this.onDeselectItem(index)}
-					>
-						{renderSelectedOption ? renderSelectedOption(i) : <React.Fragment><span>{i.label}</span><TrashIcon/></React.Fragment >}</div>
-				))}
+				<List
+					height={200}
+					itemCount={this.props.selectedOptions.length}
+					itemSize={40}
+					width={240}
+					style={{ overflowY: 'auto', overflowX: 'initial' }}
+					className="multiple-select_list--selected--virutual"
+				>
+					{this.selectedRow}
+				</List>
 			</div>
 		);
 		return (

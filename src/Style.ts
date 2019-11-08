@@ -71,7 +71,7 @@ export const popperStyle = emotionCSS`
 	background-color: #24292e;
 }
 
-.multiple-select_lists.dark .multiple-select_list_item {
+.multiple-select_lists.dark .multiple-select_list_item li{
 	color: #ffffff;
 }
 
@@ -79,15 +79,15 @@ export const popperStyle = emotionCSS`
 	fill: #ffffff;
 }
 
-.multiple-select_lists.dark .multiple-select_list_item:hover {
+.multiple-select_lists.dark .multiple-select_list_item li:hover {
 	background-color: #4d4d4d;
 }
 
-.multiple-select_lists.dark .multiple-select_list_item.js-active {
+.multiple-select_lists.dark .multiple-select_list_item.js-active li{
 	background-color: #333333;
 }
 
-.multiple-select_lists.dark .multiple-select_list_item-add, .multiple-select_lists.dark .multiple-select_list_item-remove-all {
+.multiple-select_lists.dark .multiple-select_list_item-add, .multiple-select_lists.dark .multiple-select_list_item-remove-all li{
 	color: #ffffff;
 	background-color: #24292e;
 }
@@ -141,20 +141,24 @@ export const popperStyle = emotionCSS`
 }
 
 .multiple-select_list_item {
+	border-radius: 25px;
+}
+.multiple-select_list_item li{
 	position: relative;
 	font-size: 13px;
 	min-height: 25px;
 	display: flex;
 	align-items: center;
 	font-size: 13px;
-	margin: 5px 5px 10px 5px;
+	margin: 5px 5px 5px 5px;
 	padding: 5px 10px;
-	border-radius: 20px;
 }
 
-.multiple-select_list_item > * {
+.multiple-select_list_item li > * {
 	display: inline-block;
 	width: 100%;
+	overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .multiple-select_list_item:hover {
@@ -200,16 +204,16 @@ export const popperStyle = emotionCSS`
 	height: 24px;
 }
 
-.multiple-select_list--unselected .multiple-select_list_item {
+.multiple-select_list--unselected .multiple-select_list_item li{
 	justify-content: flex-start;
 	align-items: center;
 }
 
-.multiple-select_list--unselected.js-addable .multiple-select_list_item {
+.multiple-select_list--unselected.js-addable .multiple-select_list_item{
 	top: 50px;
 }
 
-.multiple-select_list--selected .multiple-select_list_item {
+.multiple-select_list--selected .multiple-select_list_item{
 	justify-content: center;
 	align-items: center;
 }
@@ -228,7 +232,7 @@ export const popperStyle = emotionCSS`
 	fill: #F58229;
 }
 
-.multiple-select_list--selected.js-show-remove-all .multiple-select_list_item {
+.multiple-select_list--selected.js-show-remove-all .multiple-select_list_item{
 	top: 50px;
 }
 
