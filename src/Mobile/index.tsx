@@ -147,6 +147,140 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		);
 	}
 
+	componentDidUpdate(prevProps: Props, prevState: States) {
+
+		let xDown: number | null = null;
+		let yDown: number | null = null;
+
+		let timeout: any;
+		let longtouch: boolean;
+		let whereDidSwipe: 'right' | 'left' | 'didnot' = 'didnot';
+		function getTouches(evt: any) {
+			return evt.touches ||             // browser API
+				evt.originalEvent.touches; // jQuery
+		}
+
+		function handleTouchStart(evt: any) {
+			const firstTouch = getTouches(evt)[0];
+			xDown = firstTouch.clientX;
+			yDown = firstTouch.clientY;
+			timeout = setTimeout(function () {
+				longtouch = true;
+			}, 100);
+		};
+
+		const handleToucEnd = () => {
+			if (longtouch) {
+				// It was a long touch.
+				switch (whereDidSwipe) {
+					case 'left':
+						this.setState({ currentTab: 'selected' })
+						whereDidSwipe = 'didnot';
+						break;
+					case 'right':
+						this.setState({ currentTab: 'unselected' })
+						whereDidSwipe = 'didnot';
+
+						break;
+					case 'didnot': ;
+					default: ;
+				}
+
+			}
+			longtouch = false;
+			clearTimeout(timeout);
+		};
+
+		const handleTouchMove = (evt: any) => {
+			if (!xDown || !yDown) {
+				return;
+			}
+
+			let xUp = evt.touches[0].clientX;
+			let yUp = evt.touches[0].clientY;
+
+			let xDiff = xDown - xUp;
+			let yDiff = yDown - yUp;
+
+			if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
+
+				if (xDiff > 0) {
+					/* left swipe */
+					whereDidSwipe = 'left';
+
+				} else {
+					whereDidSwipe = 'right';
+
+					/* right swipe */
+				}
+			}
+			/* reset values */
+			xDown = null;
+			yDown = null;
+		};
+
+		const addEventListenersToUnselectedList = () => {
+			// @ts-ignore
+			document.querySelector(".multiple-select_list--unselected--virutual").addEventListener('touchstart', handleTouchStart, false);
+			// @ts-ignore
+			document.querySelector(".multiple-select_list--unselected--virutual").addEventListener('touchmove', handleTouchMove, false);
+
+			// @ts-ignore
+			document.querySelector(".multiple-select_list--unselected--virutual").addEventListener('touchend', handleToucEnd, false);
+
+		}
+
+		const addEventListenersToSelectedList = () => {
+			// @ts-ignore
+			document.querySelector(".multiple-select_list--selected--virutual").addEventListener('touchstart', handleTouchStart, false);
+			// @ts-ignore
+			document.querySelector(".multiple-select_list--selected--virutual").addEventListener('touchmove', handleTouchMove, false);
+
+			// @ts-ignore
+			document.querySelector(".multiple-select_list--selected--virutual").addEventListener('touchend', handleToucEnd, false);
+
+		}
+
+		// const removeEventListenersFromUnselectedList = () => {
+		// 	// @ts-ignore
+		// 	document.querySelector(".multiple-select_list--unselected--virutual").removeEventListener('touchstart', handleTouchStart, false);
+		// 	// @ts-ignore
+		// 	document.querySelector(".multiple-select_list--unselected--virutual").removeEventListener('touchmove', handleTouchMove, false);
+
+		// 	// @ts-ignore
+		// 	document.querySelector(".multiple-select_list--unselected--virutual").removeEventListener('touchend', handleToucEnd, false);
+
+		// }
+
+		// const removeEventListenersFromSelectedList = () => {
+		// 	// @ts-ignore
+		// 	document.querySelector(".multiple-select_list--selected--virutual").removeEventListener('touchstart', handleTouchStart, false);
+		// 	// @ts-ignore
+		// 	document.querySelector(".multiple-select_list--selected--virutual").removeEventListener('touchmove', handleTouchMove, false);
+
+		// 	// @ts-ignore
+		// 	document.querySelector(".multiple-select_list--selected--virutual").removeEventListener('touchend', handleToucEnd, false);
+
+		// }
+
+		// if (!this.state.showLists) {
+		// 	removeEventListenersFromUnselectedList();
+		// 	removeEventListenersFromSelectedList();
+		// }
+
+		if (this.state.showLists && prevState.showLists === false) {
+			if (this.state.currentTab === 'selected') {
+				addEventListenersToSelectedList();
+			} else {
+				addEventListenersToUnselectedList();
+
+			}
+		}
+
+
+	}
+
+
 	render() {
 		const { onInputChange, selectedOptions, popperClassName, selectedTabLabel, unselectedTabLabel } = this.props;
 		const { showLists, currentTab } = this.state;

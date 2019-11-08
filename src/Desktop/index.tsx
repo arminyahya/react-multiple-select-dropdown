@@ -7,7 +7,7 @@ import { inputStyle, popperStyle } from "../Style";
 import { CommonProp, ValueLabelModel } from "../models";
 import { FixedSizeList as List } from 'react-window';
 
-enum ListType {
+export enum ListType {
 	unselected,
 	selected
 }
