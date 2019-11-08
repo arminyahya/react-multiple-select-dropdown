@@ -19,7 +19,7 @@ import MultipleSelect from 'react-multiple-select-dropdown';
 class YourWrapperComponent extends Component {
   state = {
     selectedOptions: [],
-    Options: [
+    options: [
     { value: 1, label: 'react' },
     { value: 2, label: 'reactnative' },
     { value: 3, label: 'nodejs' },
@@ -30,19 +30,20 @@ class YourWrapperComponent extends Component {
 
   onChange = (selectedOptions) => {
     this.setState({ selectedOptions: selectedOptions });
-
+  }
 
   render() {
-  const { selectedItems, unSelectedItems } = this.state;
+  const { selectedItems, options } = this.state;
   return (
     <div>
       <MultipleSelect
         selectedOptions={selectedItems}
-        Options={unSelectedItems}
+        options={options}
         onChange={this.onChange}
       />
     </div>
 );
+}
 ```
 to see props go to [docs](https://reactmultipleselectdropdown.netlify.com/docs)
 ## License
