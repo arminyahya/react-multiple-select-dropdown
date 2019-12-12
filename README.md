@@ -1,5 +1,6 @@
-# react-multiple-select-dropdown
-![](/preview/MultiSelect.gif)
+# react-multiple-select-dropdown(tiny now!!)
+![](/preview/introduction-1.jpg)
+![](/preview/introduction-2.jpg)
 
 [![NPM](https://img.shields.io/npm/v/react-multiple-select-dropdown.svg)](https://www.npmjs.com/package/react-multiple-select-dropdown) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -17,6 +18,7 @@ import React, { Component } from 'react'
 import MultipleSelect from 'react-multiple-select-dropdown';
 
 class YourWrapperComponent extends Component {
+  // drop your items here.it could be thousands(we use virtual list so there is no problem)
   state = {
     selectedOptions: [],
     options: [
@@ -46,6 +48,9 @@ class YourWrapperComponent extends Component {
 }
 ```
 to see props go to [docs](https://reactmultipleselectdropdown.netlify.com/docs)
+
+feel free to report bugs and request feature
+
 ## License
 
 MIT © [arminyahya](https://github.com/arminyahya)

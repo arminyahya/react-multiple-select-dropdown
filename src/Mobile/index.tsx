@@ -1,19 +1,16 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { Manager, Reference, Popper } from "react-popper";
-import { popperPortal } from "../PopperPortal";
 import { TrashIcon } from "../Icons";
-import { inputStyle, popperStyle } from "../Style";
 import { ValueLabelModel, CommonProp } from "../models";
-import { FixedSizeList as List } from 'react-window';
+import { ListItem, SummaryWrap, SelectWrap, Trigger, DropDownWrap } from "../styled";
+import MobileList from "./List";
 
-interface Props extends CommonProp {
-}
+interface Props extends CommonProp { }
 
 interface States {
 	showLists: boolean;
 	currentTab: string;
 	unSelectedList: ValueLabelModel[];
+	selectedOptionsLength: number;
 }
 
 export default class MultipleSelect extends React.Component<Props, States> {
@@ -22,27 +19,35 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		unselectedTabLabel: "unselected",
 		placement: "bottom-end"
 	};
-	static getDerivedStateFromProps(props: Props, state: States) {
-		return {
-			...state,
-			unSelectedList: props.options
-				.filter(u => !props.selectedOptions.find(s => u.value === s.value))
 
+	static getDerivedStateFromProps(props: Props, state: States) {
+		if (props.selectedOptions.length !== state.selectedOptionsLength) {
+			return {
+				...state,
+				unSelectedList: props.options
+					.filter(u => !props.selectedOptions.find(s => u.value === s.value)),
+				selectedOptionsLength: props.selectedOptions.length
+			}
+		} else {
+			return state
 		}
 	}
+	isFirstTimeSelectedListDisplay: boolean = false;
+	isFirstTimeUnSelectedListDisplay: boolean = false;
 	inputRef: React.RefObject<HTMLInputElement> = React.createRef();
-	scheduleUpdate: () => void;
+	selectWrapRef: React.RefObject<HTMLInputElement> = React.createRef();
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			showLists: false,
 			currentTab: "unselected",
-			unSelectedList: props.options
+			unSelectedList: props.options,
+			selectedOptionsLength: props.selectedOptions.length
 		};
 	}
 
 	handleClickOutside = (e: any) => {
-		if ((e.target as HTMLElement).closest("#popper-portal")) {
+		if ((e.target as HTMLElement).closest(".multiple-select_dropdown-wrap")) {
 			return;
 		}
 
@@ -56,15 +61,13 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	onSelectItem = (selectedIndex: number) => {
-		this.scheduleUpdate();
+		const { options, onChange } = this.props;
 		let selectedOptions: ValueLabelModel[] = [...this.props.selectedOptions];
-		selectedOptions.push(this.props.options.filter(u => !selectedOptions.find(s => u.value === s.value))[selectedIndex]);
-		this.props.onChange(selectedOptions);
-		// @ts-ignore
-		this.inputRef.current.focus();
-		setTimeout(() => {
-			this.scheduleUpdate();
-		}, 10);
+		selectedOptions.push(options.filter(u => !selectedOptions.find(s => u.value === s.value))[selectedIndex]);
+		onChange(selectedOptions);
+		if (this.props.onFocus) {
+			this.props.onFocus
+		}
 	}
 
 	onDeselectItem = (unSelectedIndex: number) => {
@@ -74,12 +77,10 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		if (selectedOptions.length === 0) {
 			this.onBlur();
 		}
-		// if (this.scheduleUpdate) this.scheduleUpdate();
 	}
 
 	onDeselectAll = () => {
 		this.props.onChange([]);
-		if (this.scheduleUpdate) { this.scheduleUpdate(); }
 	}
 
 	onFocus = () => {
@@ -103,28 +104,22 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		}
 	}
 
-	refrenceClickHandler = () => {
-		if (this.scheduleUpdate) { this.scheduleUpdate(); }
-	}
-
 	unSelectedRow = ({ index, style }: { index: number, style: any }) => {
 		const { renderUnSelectedOption } = this.props;
 		const { unSelectedList } = this.state;
 		return (
-			<div
+			<ListItem
 				style={style}
 				key={index}
-				className={
-					"multiple-select_list_item"}>
+				className={"multiple-select_list_item"}>
 				<li
 					onClick={() => this.onSelectItem(index)}
-
 					role="option"
 
 				>
 					{renderUnSelectedOption ? renderUnSelectedOption(unSelectedList[index]) : <span>{unSelectedList[index].label}</span>}
 				</li>
-			</div>
+			</ListItem>
 		);
 	}
 
@@ -132,18 +127,18 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		const { renderSelectedOption, selectedOptions } = this.props;
 		return (
 
-			<div
+			<ListItem
 				style={style}
 				key={index}
 				className={"multiple-select_list_item"}
+
 			>
 				<li
-
 					onClick={() => this.onDeselectItem(index)}
 				>
 					{renderSelectedOption ? renderSelectedOption(selectedOptions[index]) : <React.Fragment><span>{selectedOptions[index].label}</span><TrashIcon /></React.Fragment >}
 				</li>
-			</div>
+			</ListItem>
 		);
 	}
 
@@ -171,7 +166,6 @@ export default class MultipleSelect extends React.Component<Props, States> {
 
 		const handleToucEnd = () => {
 			if (longtouch) {
-				// It was a long touch.
 				switch (whereDidSwipe) {
 					case 'left':
 						this.setState({ currentTab: 'selected' })
@@ -202,19 +196,14 @@ export default class MultipleSelect extends React.Component<Props, States> {
 			let xDiff = xDown - xUp;
 			let yDiff = yDown - yUp;
 
-			if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
-
+			if (Math.abs(xDiff) > Math.abs(yDiff)) {
 				if (xDiff > 0) {
-					/* left swipe */
 					whereDidSwipe = 'left';
 
 				} else {
 					whereDidSwipe = 'right';
-
-					/* right swipe */
 				}
 			}
-			/* reset values */
 			xDown = null;
 			yDown = null;
 		};
@@ -241,160 +230,66 @@ export default class MultipleSelect extends React.Component<Props, States> {
 
 		}
 
-		// const removeEventListenersFromUnselectedList = () => {
-		// 	// @ts-ignore
-		// 	document.querySelector(".multiple-select_list--unselected--virutual").removeEventListener('touchstart', handleTouchStart, false);
-		// 	// @ts-ignore
-		// 	document.querySelector(".multiple-select_list--unselected--virutual").removeEventListener('touchmove', handleTouchMove, false);
+		if (this.state.showLists && !prevState.showLists) {
+			addEventListenersToUnselectedList();
 
-		// 	// @ts-ignore
-		// 	document.querySelector(".multiple-select_list--unselected--virutual").removeEventListener('touchend', handleToucEnd, false);
+		}
+		if (this.state.currentTab !== prevState.currentTab) {
 
-		// }
 
-		// const removeEventListenersFromSelectedList = () => {
-		// 	// @ts-ignore
-		// 	document.querySelector(".multiple-select_list--selected--virutual").removeEventListener('touchstart', handleTouchStart, false);
-		// 	// @ts-ignore
-		// 	document.querySelector(".multiple-select_list--selected--virutual").removeEventListener('touchmove', handleTouchMove, false);
-
-		// 	// @ts-ignore
-		// 	document.querySelector(".multiple-select_list--selected--virutual").removeEventListener('touchend', handleToucEnd, false);
-
-		// }
-
-		// if (!this.state.showLists) {
-		// 	removeEventListenersFromUnselectedList();
-		// 	removeEventListenersFromSelectedList();
-		// }
-
-		if (this.state.showLists && prevState.showLists === false) {
 			if (this.state.currentTab === 'selected') {
 				addEventListenersToSelectedList();
-			} else {
-				addEventListenersToUnselectedList();
-
 			}
+
+			if (this.state.currentTab === 'unselected') {
+				addEventListenersToUnselectedList();
+			}
+
 		}
+	}
 
 
+	componentDidMount() {
+		document.addEventListener('mousedown', this.handleClickOutside);
+		document.addEventListener('touchstart', this.handleClickOutside);
+
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('mousedown', this.handleClickOutside);
+		document.removeEventListener('touchstart', this.handleClickOutside);
 	}
 
 
 	render() {
-		const { onInputChange, selectedOptions, popperClassName, selectedTabLabel, unselectedTabLabel } = this.props;
-		const { showLists, currentTab } = this.state;
-		const unSelectedList = (
-			<div
-				className={"multiple-select_list multiple-select_list--unselected"}
-				role="listbox"
-				aria-labelledby="ss_elem"
-			>
-				<List
-					height={200}
-					itemCount={this.state.unSelectedList.length}
-					itemSize={40}
-					width={240}
-					style={{ overflowY: 'auto', overflowX: 'initial' }}
-					className="multiple-select_list--unselected--virutual"
-				>
-					{this.unSelectedRow}
-				</List>
-			</div>
-		);
-		const selectedList = (
-			<div
-				className={"multiple-select_list multiple-select_list--selected"}
-			>
-				<List
-					height={200}
-					itemCount={this.props.selectedOptions.length}
-					itemSize={40}
-					width={240}
-					style={{ overflowY: 'auto', overflowX: 'initial' }}
-					className="multiple-select_list--selected--virutual"
-				>
-					{this.selectedRow}
-				</List>
-			</div>
-		);
+		const { onInputChange, selectedOptions } = this.props;
+		const { showLists } = this.state;
 		return (
-			<div className={"multiple-select" + ` ${inputStyle}`}>
-				<div className="multiple-select_summary-wrapper" hidden={showLists || selectedOptions.length < 1}>
+			<SelectWrap ref={this.selectWrapRef}>
+				<SummaryWrap hidden={showLists || selectedOptions.length < 1}>
 					<span className="multiple-select_summary" onClick={this.onFocus}>
 						{selectedOptions.length > 0 ? selectedOptions[0].label : ""}
 						{selectedOptions.length > 1 && "..."}
 					</span>
-				</div>
-				<Manager>
-					<Reference>
-						{({ ref }) => (
-							<div className="multiple-select_trigger_wrapper" ref={ref}>
-								<input
-									className="multiple-select_trigger"
-									onChange={e => {
-										if (onInputChange) {
-											onInputChange(e.target.value);
-										}
-									}}
-									onFocus={this.onFocus}
-									onBlur={this.onBlur}
-									onClick={this.refrenceClickHandler}
-									ref={
-										this.inputRef
-									}
-								/>
-							</div>
-						)}
-					</Reference>
-					{ReactDOM.createPortal(
-						<Popper modifiers={{ computeStyle: { gpuAcceleration: false } }} placement={this.props.placement} positionFixed={false}>
-							{({ ref, style, placement, scheduleUpdate }) => {
-								this.scheduleUpdate = scheduleUpdate;
-								return (
-									showLists && (
-										<div className={`${popperStyle}`}>
-											<div
-												ref={ref}
-												style={style}
-												data-placement={placement}
-												className={"multiple-select_lists" + (popperClassName ? " " + popperClassName : "")}
-											>
-												<div className="multiple-select_tab_header">
-													<div
-														className={"multiple-select_tab_header_item" + (currentTab === "unselected" ? " js-active" : "")}
-														onClick={() => { this.setState({ currentTab: "unselected" }); }}
-													>
-														<span>
-															{unselectedTabLabel}
-														</span>
-													</div>
-													<div
-														className={"multiple-select_tab_header_item" + (currentTab === "selected" ? " js-active" : "")}
-														onClick={() => { this.setState({ currentTab: "selected" }); }}
-													>
-														<span>
-															{selectedTabLabel}
-														</span>
-													</div>
-												</div>
-												{currentTab === "unselected" ?
-													<div className={"multiple-select_tab_inner"}>
-														{unSelectedList}
-													</div>
-													: <div className={"multiple-select_tab_inner"}>
-														{selectedList}
-													</div>}
-											</div>
-										</div>
-									)
-								);
-							}}
-						</Popper>,
-						popperPortal
-					)}
-				</Manager>
-			</div>
+				</SummaryWrap>
+				<Trigger>
+					<input
+						onChange={e => {
+							if (onInputChange) {
+								onInputChange(e.target.value);
+							}
+						}}
+						onFocus={this.onFocus}
+						onBlur={this.onBlur}
+						ref={
+							this.inputRef
+						}
+					/>
+				</Trigger>
+				{showLists && <DropDownWrap className="multiple-select_dropdown-wrap" top={this.selectWrapRef.current ? this.selectWrapRef.current.clientHeight : 0}>
+					<MobileList {...this.props} />
+				</DropDownWrap>}
+			</SelectWrap>
 		);
 	}
 }

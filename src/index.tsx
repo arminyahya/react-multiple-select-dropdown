@@ -1,29 +1,30 @@
 import * as React from "react";
-import MediaQuery from "react-responsive";
 import Desktop from "./Desktop";
 import Mobile from "./Mobile";
 import { CommonProp } from "./models";
-import withHandleClickOutside from "./HandleClickOutside";
-
-const DesktopHoc: any = withHandleClickOutside(Desktop);
-const MobileHoc: any = withHandleClickOutside(Mobile);
+import { AppWrap } from "./styled";
+export { default as DesktopList } from './Desktop/List';
+export { default as MobileList } from './Mobile/List';
 
 interface Props extends CommonProp { }
 
+
 const MultipleSelect = (props: Props) => (
-	<MediaQuery query={`(min-width: ${props.breackPoint || 991}px)`}>
-		{matches => (matches ?
-			<DesktopHoc
+	<AppWrap breackPoint={props.breackPoint || "991"}>
+		<div className="multiple-select--desktop">
+			<Desktop
 				{...props}
 				direction={props.direction || "rtl"}
 				placement={props.placement ? props.placement : (props.direction === "rtl" ? "bottom-end" : "bottom-start")}
 			/>
-			:
-			<MobileHoc
+		</div>
+		<div className="multiple-select--mobile">
+
+			<Mobile
 				{...props}
-				placement={props.placement ? props.placement : (props.direction === "rtl" ? "bottom-end" : "bottom-start")}
-			/>)}
-	</MediaQuery>
+				placement={props.placement ? props.placement : (props.direction === "rtl" ? "bottom-end" : "bottom-start")} />
+		</div>
+	</AppWrap>
 );
 
 export default MultipleSelect;

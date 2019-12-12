@@ -16,7 +16,6 @@ describe("Component: MultipleSelect", () => {
 	});
 
 	it("check if items move back after click on x icon", () => {
-
 		component.find(".icon--trash").simulate("click");
 		expect(component.find(".multiple-select_list--unselected").containsMatchingElement(
 			<li className="multiple-select_list_item js-active"><span>react</span></li>

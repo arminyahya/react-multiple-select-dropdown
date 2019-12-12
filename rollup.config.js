@@ -37,6 +37,10 @@ export default {
       rollupCommonJSResolveHack: true,
       clean: true
     }),
-    commonjs()
+    commonjs({
+    namedExports: {
+    'node_modules/react-is/index.js': ['isElement','isValidElementType','ForwardRef'],
+  },
+    })
   ]
 }
