@@ -1,5 +1,4 @@
 import * as React from "react";
-import { UnSelectedList as StyledUnSelectedList } from "../styled";
 import { ValueLabelModel } from "../models";
 import VirtualList from 'react-tiny-virtual-list';
 
@@ -11,7 +10,7 @@ interface Props {
 const UnSelectedList = ({ unSelectedList, unSelectedRow }: Props) => {
 
     return (
-        <StyledUnSelectedList
+        <div
             className={"multiple-select_list multiple-select_list--unselected"}
             role="listbox"
             aria-labelledby="ss_elem"
@@ -25,7 +24,7 @@ const UnSelectedList = ({ unSelectedList, unSelectedRow }: Props) => {
                 className="multiple-select_list--unselected--virutual"
                 renderItem={unSelectedRow}
             />
-        </StyledUnSelectedList>
+        </div>
     )
 }
 

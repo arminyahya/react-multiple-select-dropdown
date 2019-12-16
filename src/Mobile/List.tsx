@@ -1,7 +1,6 @@
 import * as React from "react";
 import { TrashIcon } from "../Icons";
 import { ValueLabelModel, CommonProp } from "../models";
-import { ListItem, ListsWrap, TabHeader, HeaderItem } from "../styled";
 import SelectedList from "./SelectedList";
 import UnSelectedList from "./UnSelectedList";
 
@@ -17,8 +16,7 @@ interface States {
 export default class MobileList extends React.Component<Props, States> {
     static defaultProps: Partial<Props> = {
         selectedTabLabel: "selected",
-        unselectedTabLabel: "unselected",
-        placement: "bottom-end"
+        unselectedTabLabel: "unselected"
     };
 
     static getDerivedStateFromProps(props: Props, state: States) {
@@ -72,7 +70,9 @@ export default class MobileList extends React.Component<Props, States> {
         selectedOptions.splice(unSelectedIndex, 1);
         this.props.onChange(selectedOptions);
         if (selectedOptions.length === 0) {
-            this.onBlur();
+            if (this.props.onBlur) {
+                this.props.onBlur();
+            }
         }
     }
 
@@ -80,32 +80,11 @@ export default class MobileList extends React.Component<Props, States> {
         this.props.onChange([]);
     }
 
-    onFocus = () => {
-        const { onFocus } = this.props;
-        // @ts-ignore
-        this.inputRef.current.focus();
-        this.setState({ showLists: true });
-        if (onFocus) {
-            onFocus();
-        }
-    }
-
-    onBlur = () => {
-        const { onBlur } = this.props;
-        // this.setState({ showLists: false });
-        // @ts-ignore
-
-        this.inputRef.current.value = "";
-        if (onBlur) {
-            onBlur();
-        }
-    }
-
     unSelectedRow = ({ index, style }: { index: number, style: any }) => {
         const { renderUnSelectedOption } = this.props;
         const { unSelectedList } = this.state;
         return (
-            <ListItem
+            <div
                 style={style}
                 key={index}
                 className={"multiple-select_list_item"}>
@@ -116,7 +95,7 @@ export default class MobileList extends React.Component<Props, States> {
                 >
                     {renderUnSelectedOption ? renderUnSelectedOption(unSelectedList[index]) : <span>{unSelectedList[index].label}</span>}
                 </li>
-            </ListItem>
+            </div>
         );
     }
 
@@ -124,7 +103,7 @@ export default class MobileList extends React.Component<Props, States> {
         const { renderSelectedOption, selectedOptions } = this.props;
         return (
 
-            <ListItem
+            <div
                 style={style}
                 key={index}
                 className={"multiple-select_list_item"}
@@ -136,7 +115,7 @@ export default class MobileList extends React.Component<Props, States> {
                 >
                     {renderSelectedOption ? renderSelectedOption(selectedOptions[index]) : <React.Fragment><span>{selectedOptions[index].label}</span><TrashIcon /></React.Fragment >}
                 </li>
-            </ListItem>
+            </div>
         );
     }
 
@@ -260,33 +239,33 @@ export default class MobileList extends React.Component<Props, States> {
 
 
     render() {
-        const { popperClassName, selectedTabLabel, unselectedTabLabel, selectedOptions } = this.props;
+        const { selectedTabLabel, unselectedTabLabel, selectedOptions } = this.props;
         const { currentTab, unSelectedList } = this.state;
 
         return (
-            <ListsWrap
-                className={"multiple-select_lists" + (popperClassName ? " " + popperClassName : "")}
+            <div
+                className={"multiple-select_lists"}
                 style={{ width: 240 }}
 
             >
-                <TabHeader className="multiple-select_tab_header">
-                    <HeaderItem
+                <div className="multiple-select_tab_header">
+                    <div
                         className={"multiple-select_tab_header_item" + (currentTab === "unselected" ? " js-active" : "")}
                         onClick={() => { this.setState({ currentTab: "unselected" }); }}
                     >
                         <span>
                             {unselectedTabLabel}
                         </span>
-                    </HeaderItem>
-                    <HeaderItem
+                    </div>
+                    <div
                         className={"multiple-select_tab_header_item" + (currentTab === "selected" ? " js-active" : "")}
                         onClick={() => { this.setState({ currentTab: "selected" }); }}
                     >
                         <span>
                             {selectedTabLabel}
                         </span>
-                    </HeaderItem>
-                </TabHeader>
+                    </div>
+                </div>
                 {currentTab === "unselected" ?
                     <div>
                         <UnSelectedList unSelectedList={unSelectedList} unSelectedRow={this.unSelectedRow} />
@@ -294,7 +273,7 @@ export default class MobileList extends React.Component<Props, States> {
                     : <div>
                         <SelectedList selectedOptions={selectedOptions} selectedRow={this.selectedRow} />
                     </div>}
-            </ListsWrap>
+            </div>
         );
     }
 }

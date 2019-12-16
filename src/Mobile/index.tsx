@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TrashIcon } from "../Icons";
 import { ValueLabelModel, CommonProp } from "../models";
-import { ListItem, SummaryWrap, SelectWrap, Trigger, DropDownWrap } from "../styled";
+import { DropDownWrap } from "../styled";
 import MobileList from "./List";
 
 interface Props extends CommonProp { }
@@ -16,8 +16,7 @@ interface States {
 export default class MultipleSelect extends React.Component<Props, States> {
 	static defaultProps: Partial<Props> = {
 		selectedTabLabel: "selected",
-		unselectedTabLabel: "unselected",
-		placement: "bottom-end"
+		unselectedTabLabel: "unselected"
 	};
 
 	static getDerivedStateFromProps(props: Props, state: States) {
@@ -47,7 +46,7 @@ export default class MultipleSelect extends React.Component<Props, States> {
 	}
 
 	handleClickOutside = (e: any) => {
-		if ((e.target as HTMLElement).closest(".multiple-select_dropdown-wrap")) {
+		if ((e.target as HTMLElement).closest(".multiple-select_dropdown_wrap")) {
 			return;
 		}
 
@@ -85,8 +84,9 @@ export default class MultipleSelect extends React.Component<Props, States> {
 
 	onFocus = () => {
 		const { onFocus } = this.props;
-		// @ts-ignore
-		this.inputRef.current.focus();
+		if (this.inputRef.current) {
+			this.inputRef.current.focus();
+		}
 		this.setState({ showLists: true });
 		if (onFocus) {
 			onFocus();
@@ -95,51 +95,12 @@ export default class MultipleSelect extends React.Component<Props, States> {
 
 	onBlur = () => {
 		const { onBlur } = this.props;
-		// this.setState({ showLists: false });
-		// @ts-ignore
-
-		this.inputRef.current.value = "";
+		if (this.inputRef.current) {
+			this.inputRef.current.value = "";
+		}
 		if (onBlur) {
 			onBlur();
 		}
-	}
-
-	unSelectedRow = ({ index, style }: { index: number, style: any }) => {
-		const { renderUnSelectedOption } = this.props;
-		const { unSelectedList } = this.state;
-		return (
-			<ListItem
-				style={style}
-				key={index}
-				className={"multiple-select_list_item"}>
-				<li
-					onClick={() => this.onSelectItem(index)}
-					role="option"
-
-				>
-					{renderUnSelectedOption ? renderUnSelectedOption(unSelectedList[index]) : <span>{unSelectedList[index].label}</span>}
-				</li>
-			</ListItem>
-		);
-	}
-
-	selectedRow = ({ index, style }: { index: number, style: any }) => {
-		const { renderSelectedOption, selectedOptions } = this.props;
-		return (
-
-			<ListItem
-				style={style}
-				key={index}
-				className={"multiple-select_list_item"}
-
-			>
-				<li
-					onClick={() => this.onDeselectItem(index)}
-				>
-					{renderSelectedOption ? renderSelectedOption(selectedOptions[index]) : <React.Fragment><span>{selectedOptions[index].label}</span><TrashIcon /></React.Fragment >}
-				</li>
-			</ListItem>
-		);
 	}
 
 	componentDidUpdate(prevProps: Props, prevState: States) {
@@ -265,14 +226,14 @@ export default class MultipleSelect extends React.Component<Props, States> {
 		const { onInputChange, selectedOptions } = this.props;
 		const { showLists } = this.state;
 		return (
-			<SelectWrap ref={this.selectWrapRef}>
-				<SummaryWrap hidden={showLists || selectedOptions.length < 1}>
+			<div className="multiple-select_wrap" ref={this.selectWrapRef}>
+				<div className="multiple-select_summary_wrap" hidden={showLists || selectedOptions.length < 1}>
 					<span className="multiple-select_summary" onClick={this.onFocus}>
 						{selectedOptions.length > 0 ? selectedOptions[0].label : ""}
 						{selectedOptions.length > 1 && "..."}
 					</span>
-				</SummaryWrap>
-				<Trigger>
+				</div>
+				<div className="multiple-select_trigger">
 					<input
 						onChange={e => {
 							if (onInputChange) {
@@ -285,11 +246,11 @@ export default class MultipleSelect extends React.Component<Props, States> {
 							this.inputRef
 						}
 					/>
-				</Trigger>
-				{showLists && <DropDownWrap className="multiple-select_dropdown-wrap" top={this.selectWrapRef.current ? this.selectWrapRef.current.clientHeight : 0}>
-					<MobileList {...this.props} />
+				</div>
+				{showLists && <DropDownWrap className="multiple-select_dropdown_wrap" top={this.selectWrapRef.current ? this.selectWrapRef.current.clientHeight : 0}>
+					<MobileList {...this.props} onBlur={this.onBlur} onFocus={this.onFocus} />
 				</DropDownWrap>}
-			</SelectWrap>
+			</div>
 		);
 	}
 }

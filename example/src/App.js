@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MultipleSelect, { MobileList } from 'react-multiple-select-dropdown';
 import { hot } from 'react-hot-loader/root';
 import './App.css';
+import 'react-multiple-select-dropdown/dist/index.css';
 
 function array(arraylength) {
 	var arraysum = 0;

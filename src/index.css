@@ -1,0 +1,217 @@
+.multiple-select--mobile {
+    display: none;
+  }
+
+  .multiple-select_wrap {
+      display: flex
+  }
+
+  .multiple-select_summary {
+    position: relative
+}
+
+  .multiple-select_summary_wrap {
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+    line-height: 28px;
+    position: absolute;
+    width: 100%;
+  }
+
+  .multiple-select_trigger {
+    width: 100%;
+	height: 30px;
+	border: none;
+	background-color: transparent;
+    border-bottom: 2px solid #e6e6e6
+  }
+
+  .multiple-select_trigger input {
+    outline: none;
+    height: auto;
+    border: none;
+  }
+
+  .multiple-select_lists {
+    box-shadow: 0 0 12px 0px rgba(0, 0, 0, 0.5);
+  }
+
+  .multiple-select_lists.dark .multiple-select_list {
+    -webkit-overflow-scrolling: touch;
+    background-color: #24292e;
+}
+
+.multiple-select_lists.dark .multiple-select_list_item li{
+    color: #ffffff;
+}
+
+.multiple-select_lists.dark .multiple-select_list_item .svg-point {
+    fill: #ffffff;
+}
+
+.multiple-select_lists.dark .multiple-select_list_item:hover {
+    background-color: #4d4d4d;
+}
+
+.multiple-select_lists.dark .multiple-select_list_item.js-active{
+    background-color: #333333;
+}
+
+.multiple-select_lists.dark .multiple-select_list_item-add,.multiple-select_lists.dark  .multiple-select_list_item-remove-all li {
+    color: #ffffff;
+    background-color: #24292e;
+}
+
+.multiple-select_lists.dark .multiple-select_list_item-add .svg-point ,.multiple-select_lists.dark  .multiple-select_list_item-remove-all .svg-point {
+    fill: #ffffff;
+}
+
+
+.multiple-select_lists_inner {
+    display: flex;
+}
+
+.multiple-select_tab_header {
+    display: flex;
+	background-color: #FFFFFF;
+	border-bottom: 2px solid #95B5BB;
+    height: 32px;
+}
+
+.multiple-select_tab_header.js-active {
+    background-color: #95B5BB;
+    color: #fff;
+}
+
+.multiple-select_tab_header span{ 
+    padding: 6px;
+}
+
+.multiple-select_list {
+    width: 240px;
+	height: 200px;
+	font-size: 14px;
+	font-weight: 300;
+	overflow: auto;
+	max-height: 300px;
+	width: 240px;
+	background-color: transparent;
+    z-index: 1000;
+}
+
+.multiple-select_list_item {
+    border-radius: 25px;
+}
+
+.multiple-select_list_item:hover {
+    background-color: #F2F2F2;
+}
+.list-item.js-active {
+    background-color: #E8E8E8;
+}
+
+.multiple-select_list_item li {
+    position: relative;
+	font-size: 13px;
+	min-height: 25px;
+	display: flex;
+	align-items: center;
+	font-size: 13px;
+	margin: 5px 5px 5px 5px;
+	padding: 5px 10px;
+}
+
+.multiple-select_list_item li > * {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.multiple-select_tab_header_item {
+    display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 8px;
+	flex: 1;
+	font-size: 13px;
+    cursor: pointer;
+}
+
+.multiple-select_tab_header_item.js-active {
+    background-color: #95B5BB;
+    color: #fff;
+}
+
+.multiple-select_list--unselected li {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.multiple-select_list--selected .multiple-select_list_item {
+    justify-content: center;
+    align-items: center;
+}
+
+.multiple-select_list--selected .icon--trash {
+    padding-right: 10px;
+    text-align: end;
+}
+
+
+.multiple-select_list--selected svg {
+    width: 15px;
+    height: 15px;
+}
+
+.multiple-select_list--selected .svg-point {
+    fill: #F58229;
+}
+
+.multiple-select_list--selected.js-show-remove-all .multiple-select_list_item{
+    top: 50px;
+}
+
+@media (max-width: 575px) {
+    .app-wrap.js-bp-575 .multiple-select--desktop {
+        display: none;
+      }
+       
+      .app-wrap.js-bp-575 .multiple-select--mobile {
+        display: block;
+      }
+  }
+
+@media (max-width: 768px) {
+    .app-wrap.js-bp-768 .multiple-select--desktop {
+        display: none;
+      }
+       
+      .app-wrap.js-bp-768 .multiple-select--mobile {
+        display: block;
+      }
+  }
+
+@media (max-width: 991px) {
+    .app-wrap.js-bp-991 .multiple-select--desktop {
+        display: none;
+      }
+       
+      .app-wrap.js-bp-991 .multiple-select--mobile {
+        display: block;
+      }
+  }
+
+@media (max-width: 1199px) {
+    .app-wrap.js-bp-1199 .multiple-select--desktop {
+        display: none;
+      }
+       
+      .app-wrap.js-bp-1199 .multiple-select--mobile {
+        display: block;
+      }
+  }
+

@@ -1,10 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { TrashIcon } from "../Icons";
-import { popperPortal } from "../PopperPortal";
 import { CommonProp, ValueLabelModel } from "../models";
 import VirtualList from 'react-tiny-virtual-list';
-import { ListItem, SummaryWrap, SelectWrap, Trigger, ListsInner, ListsWrap, UnSelectedList, SelectedList } from "../styled";
 
 export enum ListType {
     unselected,
@@ -23,7 +21,6 @@ interface States {
 
 export default class DesktopList extends React.Component<Props, States> {
     static defaultProps: Partial<Props> = {
-        placement: "bottom-end",
         theme: "default"
     };
     static getDerivedStateFromProps(props: Props, state: States) {
@@ -167,7 +164,7 @@ export default class DesktopList extends React.Component<Props, States> {
         const { renderUnSelectedOption } = this.props;
         const { currentList, acvtiveUnselectedItem, unSelectedList } = this.state;
         return (
-            <ListItem
+            <div
                 style={style}
                 key={index}
                 className={
@@ -180,7 +177,7 @@ export default class DesktopList extends React.Component<Props, States> {
                 >
                     {renderUnSelectedOption ? renderUnSelectedOption(unSelectedList[index]) : <span>{unSelectedList[index].label}</span>}
                 </li>
-            </ListItem>
+            </div>
         );
     }
 
@@ -189,7 +186,7 @@ export default class DesktopList extends React.Component<Props, States> {
         const { currentList, acvtiveSelectedItem } = this.state;
         return (
 
-            <ListItem
+            <div
                 style={style}
                 key={index}
                 className={"multiple-select_list_item" + (currentList === ListType.selected && acvtiveSelectedItem === index ? " js-active" : "")}
@@ -200,14 +197,14 @@ export default class DesktopList extends React.Component<Props, States> {
                 >
                     {renderSelectedOption ? renderSelectedOption(selectedOptions[index]) : <React.Fragment><span>{selectedOptions[index].label}</span><TrashIcon /></React.Fragment >}
                 </li>
-            </ListItem>
+            </div>
         );
     }
 
     render() {
-        const { selectedOptions, popperClassName, addable, theme } = this.props;
+        const { selectedOptions, addable, theme } = this.props;
         const unSelectedList = (
-            <UnSelectedList
+            <div
                 className={"multiple-select_list multiple-select_list--unselected" + (addable ? " js-addable" : "")}
                 role="listbox"
                 aria-labelledby="ss_elem"
@@ -221,10 +218,10 @@ export default class DesktopList extends React.Component<Props, States> {
                     className="multiple-select_list--unselected--virutual"
                     renderItem={this.unSelectedRow}
                 />
-            </UnSelectedList>
+            </div>
         );
         const selectedList = (
-            <SelectedList className={"multiple-select_list multiple-select_list--selected"} >
+            <div className={"multiple-select_list multiple-select_list--selected"} >
                 <VirtualList
                     height={200}
                     itemCount={selectedOptions.length}
@@ -234,19 +231,19 @@ export default class DesktopList extends React.Component<Props, States> {
                     className="multiple-select_list--selected--virutual"
                     renderItem={this.selectedRow}
                 />
-            </SelectedList>
+            </div>
         );
         return (
 
-            <ListsWrap
-                className={(popperClassName ? " " + popperClassName : "") + ("" + theme)}
+            <div
+                className={'multiple-select_lists' + ' ' + theme}
                 style={{ width: !!selectedOptions.length ? 480 : 240 }}
             >
-                <ListsInner>
+                <div className="multiple-select_lists_inner">
                     {unSelectedList}
                     {!!selectedOptions.length && selectedList}
-                </ListsInner>
-            </ListsWrap>
+                </div>
+            </div>
         )
     }
 }

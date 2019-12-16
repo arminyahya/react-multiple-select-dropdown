@@ -1,5 +1,4 @@
 import * as React from "react";
-import { ListItem, SelectedList as StyledSelectedList, UnSelectedList, SummaryWrap, SelectWrap, Trigger, ListsWrap, TabHeader, HeaderItem } from "../styled";
 import { ValueLabelModel } from "../models";
 import VirtualList from 'react-tiny-virtual-list';
 
@@ -11,7 +10,7 @@ interface Props {
 const SelectedList = ({ selectedOptions, selectedRow }: Props) => {
 
 	return (
-		<StyledSelectedList>
+		<div className={"multiple-select_list multiple-select_list--selected"}>
 			<VirtualList
 				height={200}
 				itemCount={selectedOptions.length}
@@ -21,7 +20,7 @@ const SelectedList = ({ selectedOptions, selectedRow }: Props) => {
 				className="multiple-select_list--selected--virutual"
 				renderItem={selectedRow}
 			/>
-		</StyledSelectedList>
+		</div>
 	)
 }
 

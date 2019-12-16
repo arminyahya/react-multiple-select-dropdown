@@ -16,6 +16,7 @@ npm install --save react-multiple-select-dropdown
 ```jsx
 import React, { Component } from 'react'
 import MultipleSelect from 'react-multiple-select-dropdown';
+import 'react-multiple-select-dropdown/dist/index.css';
 
 class YourWrapperComponent extends Component {
   // drop your items here.it could be thousands(we use virtual list so there is no problem)

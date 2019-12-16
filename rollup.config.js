@@ -6,7 +6,7 @@ import postcss from 'rollup-plugin-postcss'
 import resolve from 'rollup-plugin-node-resolve'
 import url from 'rollup-plugin-url'
 import svgr from '@svgr/rollup'
-
+import copy from 'rollup-plugin-copy';
 import pkg from './package.json'
 
 export default {
@@ -41,6 +41,9 @@ export default {
     namedExports: {
     'node_modules/react-is/index.js': ['isElement','isValidElementType','ForwardRef'],
   },
-    })
+    }),
+    copy({
+      targets: [{ src: 'src/index.css', dest: 'dist' }],
+    }),
   ]
 }
