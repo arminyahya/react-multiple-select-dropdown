@@ -93,10 +93,15 @@ export default class DesktopList extends React.Component<Props, States> {
 
         let list;
         if (currentList === ListType.unselected) {
+            console.log(1);
             list = document.querySelector(".multiple-select_list--unselected--virutual") as HTMLElement;
         } else {
+            console.log(2);
+
             list = document.querySelector(".multiple-select_list--selected--virutual") as HTMLElement;
         }
+        console.log(list);
+        
         const activeItem = list.querySelector(".js-active") as HTMLElement;
         if (!activeItem) {
             return;
@@ -235,7 +240,6 @@ export default class DesktopList extends React.Component<Props, States> {
             </div>
         );
         return (
-
             <div
                 className={'multiple-select_lists' + ' ' + theme}
                 style={{ width: !!selectedOptions.length ? 480 : 240 }}
