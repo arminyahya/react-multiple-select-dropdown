@@ -20,7 +20,7 @@
     "npm": ">=5"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose=false",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors",
     "build": "rollup -c",

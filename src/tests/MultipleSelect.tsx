@@ -1,5 +1,5 @@
 import * as React from "react";
-import MultipleSelect from "../index";
+import { DesktopList } from "../index";
 class App extends React.Component<any, any> {
   state = {
     selectedItems: [],
@@ -20,7 +20,7 @@ class App extends React.Component<any, any> {
     const { selectedItems, unSelectedItems } = this.state;
     return (
       <div>
-        <MultipleSelect
+        <DesktopList
           selectedOptions={selectedItems}
           options={unSelectedItems}
           onChange={this.onChange}

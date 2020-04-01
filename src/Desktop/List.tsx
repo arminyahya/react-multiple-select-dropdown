@@ -169,7 +169,8 @@ export default class DesktopList extends React.Component<Props, States> {
                 key={index}
                 className={
                     "multiple-select_list_item" + (currentList === ListType.unselected && acvtiveUnselectedItem === index ? " js-active" : "")
-                }>				<li
+                }>
+                <li
                     onClick={() => this.onSelectItem(index)}
 
                     role="option"

@@ -12,7 +12,6 @@ module.exports = {
     globals: {
         "NODE_ENV": "test"
     },
-    verbose: true,
     moduleFileExtensions: [
         "ts",
         "tsx",
