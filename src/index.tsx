@@ -17,7 +17,6 @@ const MultipleSelect = (props: Props) => (
 			/>
 		</div>
 		<div className="multiple-select--mobile">
-
 			<Mobile {...props} />
 		</div>
 	</>
