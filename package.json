@@ -60,7 +60,7 @@
     "jest-enzyme": "^7.0.2",
     "jsdom": "^15.0.0",
     "jsdom-global": "^3.0.2",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts-ts": "^2.16.0",
